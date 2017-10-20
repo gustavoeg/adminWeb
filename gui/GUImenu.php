@@ -4,7 +4,7 @@
 <!-- Bootstrap -->
 <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <link href="../gui/bootstrap/dataTables.bootstrap.min.css" rel="stylesheet" />
-<link href="../gui/bootstrap/responsive.bootstrap.min" rel="stylesheet" />
+<link href="../gui/bootstrap/responsive.bootstrap.min.csss" rel="stylesheet" />
 
 <header id="main-header">
     <a id="logo-header" href="../app/index.php">

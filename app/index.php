@@ -1,4 +1,4 @@
-<?php include_once '../lib/ControlAcceso.class.php'; ?>
+<?php  include_once '../lib/ControlAcceso.class.php'; ?>
 
 <html>
     <head>
@@ -12,11 +12,11 @@
         <script type="text/javascript" src="../lib/login.js"></script>
     </head>
     <body>
-        <?php include_once '../gui/GUImenuAdministrador.php'; ?>
+        <?php include_once '../gui/GUImenuEstatico.php'; ?>
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3><?php echo Constantes::NOMBRE_SISTEMA; ?> - Consulta</h3>
+                    <h3><?php echo Constantes::NOMBRE_SISTEMA; ?> - Administraci&oacute;n</h3>
                     <div>
                         <h4>Bienvenido</h4>
                         <p>Estimado agente: Bienvenido a la aplicaci&oacute;n CheckPoint, a trav&eacute;s de la cual podr&aacute; efectuar valoraciones
@@ -35,7 +35,7 @@
                                 <span id="not_signed_in9kbu5ybb006p">Manual</span>
                             </span>
                         </div>
-                        <div id="okgoogle" class="g-signin2" data-onsuccess="onSignIn" title="Acceder al Sistema eRecibo"></div>
+                        <div id="okgoogle" class="g-signin2" onclick="ClickLogin()" data-onsuccess="onSignIn" title="Acceder al Sistema eRecibo"></div>
                     </div>
                 </div>
             </article>

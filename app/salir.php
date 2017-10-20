@@ -13,6 +13,7 @@ $_SESSION['usuario'] = null;
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../gui/responsivo.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+      
     </head>
     <body>
         <?php include_once '../gui/GUImenu.php'; ?>

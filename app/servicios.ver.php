@@ -20,8 +20,9 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                     <p>A continuaci&oacute;n se muestran servicios del Sistema.</p>
                     <p>
                     <fieldset>
-                        <legend>Opciones</legend>                        
-                        <a href="create.php" class="btn btn-primary btn-md">
+                        <legend>Opciones</legend>
+<!--                        creacion del boton NUEVO-->
+                        <a href="servicios.nuevo.php" class="btn btn-primary btn-md">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Habilitar
                         </a>
                     </fieldset>

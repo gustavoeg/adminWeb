@@ -39,6 +39,10 @@ class WorkflowPermiso {
 }
 
 class WorkflowRol {
+    
+    /**
+     * falta la implementacion de eliminar rol
+     */
 
     /**
      * @var int

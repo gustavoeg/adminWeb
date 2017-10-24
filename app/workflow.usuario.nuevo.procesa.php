@@ -10,9 +10,10 @@ ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();
 if (isset($_POST['nombre'])) {
     try {
+        /* se saca el campo sector de la tabla usuario */
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "INSERT INTO " . Constantes::BD_USERS . ".USUARIO "
-                . "VALUES (NULL, '{$_POST['email']}', '{$_POST['nombre']}', 'Google', '{$_POST['estado']}', {$_POST['idSec']})");
+                . "VALUES (NULL, '{$_POST['email']}', '{$_POST['nombre']}', 'Google', '{$_POST['estado']}')");
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";

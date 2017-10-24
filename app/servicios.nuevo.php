@@ -45,7 +45,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERV_HABILITAR);
                                     <option value="0">Seleccione</option>
                                     <?php
                                     $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                            . "SELECT idencargado, nombre "
+                                            . "SELECT ideusuario, nombre "
                                             . "FROM encargado "
                                             . "ORDER BY nombre");
                                     for ($x = 0; $x < $datos->num_rows; $x++) {

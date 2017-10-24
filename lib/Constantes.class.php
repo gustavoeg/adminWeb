@@ -23,6 +23,6 @@ class Constantes {
     const HOMEAUTH = "http://localhost/checkpoint/app/servicios.ver.php";
     
     const BD_SCHEMA = "checkpoint";
-    const BD_USERS = "uargflow";
+    const BD_USERS = "checkpoint";
     
 }

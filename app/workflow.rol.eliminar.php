@@ -1,6 +1,6 @@
 <?php
 include_once '../lib/ControlAcceso.class.php';
-include_once '../modelo/Workflow.class.php';
+//include_once '../modelo/Workflow.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_USUARIOS);
 ?>
 <html>
@@ -18,12 +18,32 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_USUARIOS);
                     <h3>Eliminar Rol</h3>
                     <?php
                     $mensaje = "Registro eliminado con exito";
-                    $RolWorkflow = new WorkflowRol($_GET['id']);
                     try {
-                        $RolWorkflow->eliminar();
+
+                        //implementacion porque no estaba
+                        ObjetoDatos::getInstancia()->autocommit(false);
+                        ObjetoDatos::getInstancia()->begin_transaction();
+
+                        //elimino de la asociacion con usuario
+                        ObjetoDatos::getInstancia()->ejecutarQuery(""
+                                . "DELETE FROM " . Constantes::BD_USERS . ".USUARIO_ROL "
+                                . "where idrol='" . $_GET['id'] . "'");
+
+                        //elimino de la asociacion con PERMISO
+                        ObjetoDatos::getInstancia()->ejecutarQuery(""
+                                . "DELETE FROM " . Constantes::BD_USERS . ".ROL_PERMISO  "
+                                . "where idrol='" . $_GET['id'] . "'");
+                        
+                        //eliminacion del ROL en si
+                        ObjetoDatos::getInstancia()->ejecutarQuery(""
+                                . "DELETE FROM " . Constantes::BD_USERS . ".ROL "
+                                . "where idrol='" . $_GET['id'] . "'");
+                        
                     } catch (Exception $ex) {
                         $mensaje = "Ha ocurrido un error : {$ex->getCode()}";
                     }
+                    
+                    ObjetoDatos::getInstancia()->commit();
                     ?>
                     <p><?= $mensaje; ?></p>
                     <fieldset>

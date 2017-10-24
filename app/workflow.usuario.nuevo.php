@@ -39,23 +39,7 @@ $RolesWorkflow = new WorkflowRoles();
                                 <input type="radio" name="estado" value="Activo" checked />Activo
                                 <input type="radio" name="estado" value="Inactivo" />Inactivo
                             </p>
-
-                            <p>Sector (*)<br />
-
-                                <select name="idSec" title="Sector">
-                                    <option value="0">Seleccione</option>
-                                    <?php
-                                    $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                            . "SELECT idSector, nombre "
-                                            . "FROM sectoruniversitario "
-                                            . "ORDER BY nombre");
-                                    for ($x = 0; $x < $datos->num_rows; $x++) {
-                                        $sector = $datos->fetch_assoc(); ?>
-                                        <option value="<?= $sector['idSector']; ?>"><?= $sector['nombre']; ?></option>
-                                    <?php } ?>
-                                </select>
-                                <script>validador.addValidation("idSec", "selectOptions=0");</script>
-                            </p>
+                           
                         </fieldset>
 
                         <fieldset>

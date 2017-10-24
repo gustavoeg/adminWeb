@@ -11,7 +11,7 @@ $UsuariosWorkflow = new WorkflowUsuarios();
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <?php include_once '../gui/GUImenuAdministrador.php'; ?>
+        <?php include_once '../gui/GUImenu.php'; ?>
         <section id="main-content">
             <article>
                 <div class="content">

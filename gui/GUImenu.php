@@ -17,24 +17,23 @@
         <nav>
 
             <ul class="slimmenu">
-                <li><a href="../app/panel.php" title="Panel de Control personal">Home</a></li>
+                <li><a href="../app/servicios.ver.php" title="Principal">Home</a></li>
 
-                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_SERV_HABILITAR)) { ?>
+                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_SERVICIOS)) { ?>
                     <li>
-                        <a href="#">Servicios</a>
-                        
+                        <a href="../app/servicios.ver.php">Servicios</a>
                     </li>
                 <?php } ?>
 
-                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_AGREGAR_UBICACION)) { ?>
+                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_UBICACION)) { ?>
                     <li>
-                        <a href="#">Ubicacion</a>
+                        <a href="../app/ubicacion.php">Ubicacion</a>
                     </li>
                 <?php } ?>
                     
-                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_AGREGAR_UBICACION)) { ?>
+                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION)) { ?>
                     <li>
-                        <a href="#">Ubicacion</a>
+                        <a href="../app/valoracion.php">Valoracion</a>
                     </li>
                 <?php } ?>
                     
@@ -59,7 +58,7 @@
                 <table>
                     <tr>
                         <td>
-                            Usuario: <?php echo $_SESSION['usuario']->nombre; ?><br />
+                            Usuario: <?php echo $_SESSION['usuario']->nombre." (".PermisosSistema::ROL_ADMIN.")"; ?><br />
                             (<?php echo $_SESSION['usuario']->email; ?>) :: 
                             <a href="../app/salir.php">Salir</a>
                         </td>

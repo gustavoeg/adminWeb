@@ -38,26 +38,18 @@ class PermisosSistema {
     //const PERMISO_CONSULTAR = "Consultar";
     
     
-    //permiso para ABM de servicios, podria ser uno solo
-    const PERMISO_SERV_HABILITAR = "Habilitar Servicio";
-    const PERMISO_SERV_DESHABILITAR = "Deshabilitar Servicio";    
-    const PERMISO_SERV_EDITAR = "Editar Servicios";
+    /* permiso para ABM de servicios */
+    const PERMISO_SERVICIOS = "Servicios";
     
-    /* Estos permisos son para el ROL de encargado. 
-     *  Se usa el termino AGREGAR en lugar de AÑADIR por el caracter especial Ñ*/
-    const PERMISO_AGREGAR_OPCIONES_V = "Agregar opciones de valoracion";      
-    const PERMISO_EDITAR_OPCIONES_V = "Editar opciones de valoracion";
-    const PERMISO_ELIMINAR_OPCIONES_V = "Eliminar opciones de valoracion";
+    /* Estos permisos son para el ROL de encargado. */
+    const PERMISO_OPCIONES_VALORACION = "Opciones de valoracion";      
     
     /* Estos permisos son para el ROL de encargado */
-    const PERMISO_HABILITA_EN_SECTOR= "Habilita en Sector";
-    const PERMISO_AGREGAR_UBICACION = "Agregar Ubicacion";
-    const PERMISO_MODIFICAR_UBICACION = "Editar Ubicacion";
-    const PERMISO_ELIMINAR_UBICACION = "Eliminar Ubicacion";
+    const PERMISO_HABILITA_EN_SECTOR= "Habilita en Sector";    
+    const PERMISO_UBICACION = "Ubicacion";
     
+    /* permisos para la generacion de reportes (directivos, autoridades) */
     const PERMISO_REPORTES = "Reportes";
-    
-    const PERMISO_PARAMETROS = "Parametros";   
     
     /* Permite la gestion de usuarios */
     const PERMISO_USUARIOS = "Usuarios";

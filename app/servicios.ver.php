@@ -32,7 +32,6 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                         <thead>
                             <tr>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
                                 <th>Encargado</th>
                                 <th>Email Encargado</th>
                                 <th>Email Valoraciones</th>
@@ -44,20 +43,22 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                             <?php
                             //$res = $mysqli->query("SELECT * FROM checkpoint.servicios");
                             $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                    . "SELECT * "
-                    . "FROM " . Constantes::BD_SCHEMA . ".servicios ");
+                    . "SELECT s.idservicios, s.nombre, s.email_valoraciones, s.habilitado, s.icono, u.nombre as encargado "
+                                    . "FROM " . Constantes::BD_SCHEMA . ".servicios s "
+                                    . "join " . Constantes::BD_SCHEMA . ".usuario u "
+                                    . "on s.usuario_idusuario=u.idusuario ");
                             while ($row = $res->fetch_assoc()):
                             //foreach ($UsuariosWorkflow->getUsuarios() as $WorkflowUsuario) {
                                 ?>
                                 <tr>
                                     <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['descripcion'] ?></td>
                                     <td><?php echo $row['encargado'] ?></td>
                                     <td><?php echo $row['email_valoraciones'] ?></td>
-                                    <td><?php echo $row['fk_encargado_idencargado'] ?></td>
+                                    <td>icono <?php echo $row['icono'] ?></td>
+                                    <td><?php echo $row['habilitado'] ?></td>
                                     <td>
                                         <a href="update.php?u=<?php echo $row['idservicios'] ?>"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</a>
-                                        <a onclick="return confirm('Deshabilitar')" href="delete.php?d=<?php echo $row['idservicios'] ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Delete</a>
+                                        <a onclick="return confirm('Deshabilitar')" href="servicios.eliminar.php?id=<?php echo $row['idservicios'] ?>"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Eliminar</a>
                                     </td>
                                 </tr>
                                 <?php
@@ -67,31 +68,7 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                         </tbody>
                     </table> 
 
-                    <table class="tablaDatos">
-                        <thead>
-                            <tr>
-                                <th style="width: 85%">Usuario</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($UsuariosWorkflow->getUsuarios() as $WorkflowUsuario) {
-                                ?>
-                                <tr>                                        
-                                    <td><?= $WorkflowUsuario->getNombre(); ?></td>
-                                    <td>
-                                        <a href="workflow.usuario.ver.php?id=<?= $WorkflowUsuario->getIdUsuario(); ?>">
-                                            <img src="../imagenes/abm_ver.png" />
-                                        </a>
-                                        <a href="workflow.usuario.eliminar.php?id=<?= $WorkflowUsuario->getIdUsuario(); ?>" onclick="return confirm('Seguro que desea eliminar el Usuario <?= $WorkflowUsuario->getNombre(); ?>?');">
-                                            <img src="../imagenes/abm_eliminar.png"/>
-                                        </a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                    
                     <p>&nbsp;</p>
                 </div>
             </article>

@@ -1,7 +1,7 @@
 <?php
 include_once '../lib/ControlAcceso.class.php';
 //include_once '../modelo/Workflow.class.php';
-ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERV_HABILITAR);
+ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 
 ?>
 <html>
@@ -18,7 +18,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERV_HABILITAR);
                 <div class="content">
                     <h3>Habilitacion de un nuevo Servicio</h3>
                     <p>Por favor complete los datos a continuaci&oacute;n. Los campos marcados con (*) son obligatorios.</p>
-                    <form method="post" action="workflow.usuario.nuevo.procesa.php" name="formulario" >
+                    <form method="post" action="servicio.nuevo.procesa.php" name="formulario" >
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>
                         <fieldset>
                             <legend>Propiedades</legend>      
@@ -45,13 +45,16 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERV_HABILITAR);
                                     <option value="0">Seleccione</option>
                                     <?php
                                     $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                            . "SELECT ideusuario, nombre "
-                                            . "FROM encargado "
-                                            . "ORDER BY nombre");
+                                            . "SELECT u.idusuario, u.nombre "
+                                            . "FROM ".Constantes::BD_USERS.".usuario u "
+                                            . "join ".Constantes::BD_USERS.".usuario_rol ur on u.idusuario=ur.idusuario "
+                                            . "join ".Constantes::BD_USERS.".rol r on r.idrol=ur.idrol "
+                                            . "where r.nombre='". PermisosSistema::ROL_ENCARGADO."' "
+                                            . "order by u.nombre asc;");
                                     for ($x = 0; $x < $datos->num_rows; $x++) {
                                         $encargado = $datos->fetch_assoc();
                                         ?>
-                                        <option value="<?= $encargado['idencargado']; ?>"><?= $encargado['nombre']; ?></option>
+                                        <option value="<?= $encargado['idusuario']; ?>"><?= $encargado['nombre']; ?></option>
                                     <?php } ?>
                                 </select>
                                 <script>validador.addValidation("idencargado", "selectOptions=0");</script>

@@ -9,9 +9,17 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <script src="../lib/validador.js" type="text/javascript"></script>
         <script src="../lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        
+         <link type="text/css" rel="stylesheet" href="../lib/jQueryToggleSwitch/css/rcswitcher.css">
+        <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/rcswitcher.js"></script>
+        
         <script src="../lib/imagepicker/image-picker.js" type="text/javascript"></script>
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../lib/imagepicker/image-picker.css" type="text/css" rel="stylesheet" />
+
+       
+
     </head>
     <body>
         <?php include_once '../gui/GUImenu.php'; ?>
@@ -31,16 +39,17 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                             </p>
 
                             <p>Correo electr&oacute;nico Valoraciones (*)<br>
-                                <input type="radio" name="valoracion" value="1" checked />Mismo que encargado
-                                <input type="radio" name="valoracion" value="0" />otro 
+                            
+                                <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
                                 <input type="text" name="email" id="email" title="Correo electronico" />
                                 <script>//validador.addValidation("email", "obligatorio");</script>
                                 <script>validador.addValidation("email", "email");</script>
                             <p/>
 
-                            <p>Habilitado<br />
-                                <input type="radio" name="estado" value="1" checked />Si
-                                <input type="radio" name="estado" value="0" />No
+                            <p class="habilitado">Habilitado<br />
+
+                                <input type="checkbox" name="estado" value="1" checked/><br />
                             </p>
 
                             <p>Encargado (*)<br />
@@ -95,7 +104,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                             <!--        fin de la parte en que van las imagenes para seleccionar-->
                                         </div>
                                         <div class="modal-footer">
-<!--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
+                                            <!--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
                                             <button type="button"  data-dismiss="modal">Aceptar</button>
                                         </div>
                                     </div>
@@ -118,33 +127,58 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                 </div>
             </article>
             <script>
-                $(document).ready(function(){
-                     $("#email").prop('disabled', true);
-                 });
-                $("#selecticon").imagepicker({
-                    hide_select: true,
-                    show_label: false,
-                    changed: function (select, newValues, oldValues, event) {
-                        if (newValues !== '') {
-                            //cambio la imagen cuando haga click en otra imagen
-                            $("#icono").prop("src", "../imagenes/iconos/png/" + newValues.toString() + ".png");
-                        } else {
-                            $("#icono").prop("src", "../imagenes/iconos/png/000.png");
+                $(document).ready(function () {
+                    $("#email").prop('disabled', true);
+
+                    $('.habilitado :checkbox').rcSwitcher({
+                        // reverse: true,
+                        inputs: false,
+                        // width: 70,
+                        // height: 24,
+                        // blobOffset: 2,
+                        onText: 'Si',
+                        offText: 'No',
+                        theme: 'light',
+                        // autoFontSize: true,
+                    }).on({
+                        'enable.rcSwitcher': function (e, data)
+                        {
+                            console.log('Enabled', data);
+                        },
+                        'disable.rcSwitcher': function (e, data)
+                        {
+                            console.log('Disabled');
                         }
-                    }
-                });
-                $('input[name="valoracion"]').on('change', function() {
-                    var radioValue = $('input[name="valoracion"]:checked').val();   
+                    });
+                    
+                    $("#selecticon").imagepicker({
+                        hide_select: true,
+                        show_label: false,
+                        changed: function (select, newValues, oldValues, event) {
+                            if (newValues !== '') {
+                                //cambio la imagen cuando haga click en otra imagen
+                                $("#icono").prop("src", "../imagenes/iconos/png/" + newValues.toString() + ".png");
+                            } else {
+                                $("#icono").prop("src", "../imagenes/iconos/png/000.png");
+                            }
+                        }
+                    });
+                    $('input[name="valoracion"]').on('change', function () {
+                    var radioValue = $('input[name="valoracion"]:checked').val();
                     //alert(radioValue);
-                    if(radioValue == 1){
+                    if (radioValue == 1) {
                         $("#email").prop('disabled', true);
                         $("#email").prop('value', '');
                         //validador.("email", "obligatorio");
-                    }else{
+                    } else {
                         $("#email").prop('disabled', false);
-                    };
+                    }
+                    ;
                 });
+                });
+
                 
+
             </script>
         </section>
         <?php include_once '../gui/GUIfooter.php'; ?>

@@ -7,27 +7,31 @@ $mensaje = "El Servicios ha sido agregado con exito.";
 ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();
 if (isset($_POST['nombre'])) {
-    if($_POST['valoracion']=='0'){
-        if(isset($_POST['email'])){
-            $email=$_POST['email'];
-        }else{
-            $email='';
+    if ($_POST['valoracion'] == '0') {
+        if (isset($_POST['email'])) {
+            $email = $_POST['email'];
+        } else {
+            $email = '';
         }
-       }else{
-           $email=null;
-       }
+    } else {
+        $email = '';
+    }
+    if(isset($_POST['estado'])){        //si esta seteado, esta checked (habilitado)
+        $estado = 1;
+    }else{
+        $estado = 0;
+    }
     try {
         /* se saca el campo sector de la tabla usuario */
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$email}', {$_POST['estado']}, {$_POST['selecticon']},{$_POST['idencargado']})");
-                echo "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['email']}', {$_POST['estado']}, {$_POST['selecticon']},{$_POST['idencargado']})";
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
+        //echo "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "
+        //. "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['email']}', {$_POST['estado']}, {$_POST['selecticon']},{$_POST['idencargado']})";
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
         ObjetoDatos::getInstancia()->rollback();
-        
     }
 }
 $idusuario = ObjetoDatos::getInstancia()->insert_id;
@@ -62,7 +66,7 @@ ObjetoDatos::getInstancia()->commit();
                             <input type="button" value="Ver Servicios" />
                         </a>
                     </fieldset>    
-                    
+
                 </div>
             </article>
         </section>

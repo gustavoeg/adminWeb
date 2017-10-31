@@ -53,7 +53,12 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                                 <tr>
                                     <td><?php echo $row['nombre'] ?></td>
                                     <td><?php echo $row['encargado'] ?></td>
-                                    <td><?php echo $row['email_valoraciones'] ?></td>
+                                    <td><?php if(($row['email_valoraciones']) != ''){
+                                        echo $row['email_valoraciones'];
+                                    }else{
+                                        echo "<i>Email de Encargado</i>";
+                                    }
+                                     ?></td>
                                     <td><img src="../imagenes/iconos/png/<?php echo str_pad($row['icono'], 3, "0", STR_PAD_LEFT).".png";  ?>" width="32" /></td>
                                     <td><?php if($row['habilitado'] =='1'){echo "Si";}else{echo "No";} ?></td>
                                     <td>

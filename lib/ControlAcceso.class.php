@@ -241,7 +241,10 @@ class UsuarioGoogle extends Usuario {
         $this->metodologin = Usuario::METODO_GOOGLE;
 
         if ($this->idusuario == null) {
-            $this->registraUsuarioGoogle();
+            /* en este caso se tiene que informar que no esta registrado en el sistema (solicitud al administrador)
+             * considerar si se permite la creacion de la sesion porque no existe el usuario
+             *  */
+            //$this->registraUsuarioGoogle();
         }
     }
 
@@ -351,6 +354,8 @@ class ControlAcceso {
      * @todo [15/06/2017] El método está pensado para instanciar usuarios Google. Se debe generalizar.
      * @since v. 2.0 2017-08-14 - El método deja de ser estático. Autoregistro desactivado.
      * 
+     * en checkpoint se crea la sesion solo cuando el usuario esta registrado en el sistema
+     * 
      * @author Eder dos Santos <esantos@uarg.unpa.edu.ar>
      * 
      */
@@ -360,7 +365,15 @@ class ControlAcceso {
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        $_SESSION['usuario'] = $Usuario;
+        
+        /* la sesion se asigna cuando el usuario existe */
+        if($Usuario->idusuario!=null){
+            $_SESSION['usuario'] = $Usuario;
+        }else{
+            session_unset();
+            $_SESSION['usuario'] = null;
+        }
+        
     }
 
     /**
@@ -391,12 +404,21 @@ class ControlAcceso {
          */
         if (isset($_SESSION["HTTP_REFERER"]) && $_SESSION["HTTP_REFERER"] == Constantes::HOMEURL && isset($_POST['email'])) {
             try {
+                /* para crear la sesion tengo que ver que sea un usuario registrado */
+                
+                /* verifico que sea un usuario registrado */
+                
                 $this->creaSesion($_POST['email'], Usuario::METODO_GOOGLE, $_POST['googleid'], $_POST['imagen'], $_POST['nombre']);
             } catch (Exception $e) {
                 echo "<script>alert('{$e->getMessage()}');</script>";
                 die($e->getMessage());
             }
-            $this->redireccionaIndex();
+            
+            /* verifico que la sesion se haya creado correctamente */
+            if(isset($_SESSION['usuario'])){
+                $this->redireccionaIndex();
+            }
+            
         }
 
 

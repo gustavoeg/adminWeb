@@ -1,4 +1,5 @@
-<?php  include_once '../lib/ControlAcceso.class.php'; ?>
+<?php /* recibo por post email, nombre, imagen, googleid */
+include_once '../lib/ControlAcceso.class.php'; ?>
 
 <html>
     <head>
@@ -16,12 +17,20 @@
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3><?php echo Constantes::NOMBRE_SISTEMA; ?> - Administraci&oacute;n</h3>
+                    <h3><?php echo Constantes::NOMBRE_SISTEMA; ?></h3>
                     <div>
                         <h4>Bienvenido</h4>
                         <p>Estimado agente: Bienvenido a la aplicaci&oacute;n CheckPoint, a trav&eacute;s de la cual podr&aacute; efectuar valoraciones
                             sobre los servicios prestados en el Campus Universitario de la UARG.</p>
-                        <p><span style="color: red">Importante: Algun mensaje importante.</span></p>
+                        <p><span style="color: red"><?php 
+                        if(isset($_POST['googleid'])){
+                            
+                                /* en este caso intento loguearse pero no pertenece al sistema */
+                                echo "Su cuenta no esta autorizada para operar en el sistema.";
+                            
+                        }
+                        ?>
+                                </span></p>
                         <h4>Ingreso al Sistema</h4>
                         <p>Ud. puede consultar el sistema si est&aacute; conectado a su e-mail Institucional. Por favor haga click en el bot&oacute;n a 
                             continuaci&oacute;n y elija su cuenta institucional.</p>

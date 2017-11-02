@@ -1,6 +1,5 @@
 <?php include_once '../lib/ControlAcceso.class.php'; ?>
 <?php
-session_start();
 session_unset();
 $_SESSION['usuario'] = null;
 ?>
@@ -30,8 +29,8 @@ $_SESSION['usuario'] = null;
                                 <a href="../app/index.php">
                                     <input type="button" value="Ingresar al Sistema" />
                                 </a>
-                                <a href="http://www.gmail.com">
-                                    <input type="button" value="Cerrar" />
+                                <a href="https://accounts.google.com/logout" target="_blank" rel="nofollow" onmousedown="this.href='https://accounts.google.com/logout';return true;" onclick="this.href='https://accounts.google.com/logout';return true;">
+                                    <input type="button" value="Cerrar Sesion de Google ahora" />
                                 </a>
                             </p>
                         </fieldset>

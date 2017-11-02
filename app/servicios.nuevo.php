@@ -7,19 +7,21 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        
+        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
+        <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+        
         <script src="../lib/validador.js" type="text/javascript"></script>
         <script src="../lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        
-         <link type="text/css" rel="stylesheet" href="../lib/jQueryToggleSwitch/css/rcswitcher.css">
+
+        <link type="text/css" rel="stylesheet" href="../lib/jQueryToggleSwitch/css/rcswitcher.css">
         <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/rcswitcher.js"></script>
-        
+
         <script src="../lib/imagepicker/image-picker.js" type="text/javascript"></script>
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../lib/imagepicker/image-picker.css" type="text/css" rel="stylesheet" />
-
-       
-
+        
     </head>
     <body>
         <?php include_once '../gui/GUImenu.php'; ?>
@@ -39,7 +41,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                             </p>
 
                             <p>Correo electr&oacute;nico Valoraciones (*)<br>
-                            
+
                                 <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
                                 &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
                                 <input type="text" name="email" id="email" title="Correo electronico" />
@@ -71,6 +73,10 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                     <?php } ?>
                                 </select>
                                 <script>validador.addValidation("idencargado", "selectOptions=0");</script>
+                                o registrar usuario (gmail)
+                                <a href="./workflow.usuario.nuevo.php">
+                                    <input type="button" value="Agregar Usuarios..."/>
+                                </a> 
                             </p>
                             <p>
                                 <img id="icono" src="../imagenes/iconos/png/000.png"  />
@@ -150,7 +156,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                             console.log('Disabled');
                         }
                     });
-                    
+
                     $("#selecticon").imagepicker({
                         hide_select: true,
                         show_label: false,
@@ -164,20 +170,20 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                         }
                     });
                     $('input[name="valoracion"]').on('change', function () {
-                    var radioValue = $('input[name="valoracion"]:checked').val();
-                    //alert(radioValue);
-                    if (radioValue == 1) {
-                        $("#email").prop('disabled', true);
-                        $("#email").prop('value', '');
-                        //validador.("email", "obligatorio");
-                    } else {
-                        $("#email").prop('disabled', false);
-                    }
-                    ;
-                });
+                        var radioValue = $('input[name="valoracion"]:checked').val();
+                        //alert(radioValue);
+                        if (radioValue == 1) {
+                            $("#email").prop('disabled', true);
+                            $("#email").prop('value', '');
+                            //validador.("email", "obligatorio");
+                        } else {
+                            $("#email").prop('disabled', false);
+                        }
+                        ;
+                    });
                 });
 
-                
+
 
             </script>
         </section>

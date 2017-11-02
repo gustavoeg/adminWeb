@@ -73,7 +73,8 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                     <?php } ?>
                                 </select>
                                 <script>validador.addValidation("idencargado", "selectOptions=0");</script>
-                                o registrar usuario (gmail)
+                                o registrar nuevo encargado
+<!--                                llamar al formulario de creacion de usuarios-->
                                 <a href="./workflow.usuario.nuevo.php">
                                     <input type="button" value="Agregar Usuarios..."/>
                                 </a> 
@@ -103,7 +104,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                                 <?php
                                                 for ($i = 1; $i <= 100; $i++) {
 
-                                                    echo "<option data-img-src='../imagenes/iconos/png/" . str_pad($i, 3, "0", STR_PAD_LEFT) . ".png' value='" . str_pad($i, 3, "0", STR_PAD_LEFT) . "'>Icono$i</option>";
+                                                    echo "<option data-img-src='../imagenes/iconos/png/" . $i . ".png' value='" . $i . "'>Icono$i</option>";
                                                 }
                                                 ?>
                                             </select>

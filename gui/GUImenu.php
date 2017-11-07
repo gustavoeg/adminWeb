@@ -33,7 +33,7 @@
                     
                 <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION)) { ?>
                     <li>
-                        <a href="../app/valoracion.php">Valoracion</a>
+                        <a href="../app/valoraciones.ver.php">Valoracion</a>
                     </li>
                 <?php } ?>
                     

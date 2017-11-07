@@ -76,14 +76,14 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                 o registrar nuevo encargado
 <!--                                llamar al formulario de creacion de usuarios-->
                                 <a href="./workflow.usuario.nuevo.php">
-                                    <input type="button" value="Agregar Usuarios..."/>
+                                    <input type="button" class="btn btn-info" value="Agregar Usuarios..."/>
                                 </a> 
                             </p>
                             <p>
                                 <img id="icono" src="../imagenes/iconos/png/000.png"  />
 
                                 <!-- Button trigger modal -->
-                                <button type="button" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
                                     Seleccionar Icono
                                 </button>
 
@@ -112,7 +112,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                         </div>
                                         <div class="modal-footer">
                                             <!--                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>-->
-                                            <button type="button"  data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -122,10 +122,10 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 
                         <fieldset>
                             <legend>Opciones</legend>
-                            <input type="submit" value="Guardar" />
-                            <input type="reset" value="Limpiar Campos" />
+                            <input type="submit" class="btn btn-success" value="Guardar" />
+                            <input type="reset" class="btn btn-default" value="Limpiar Campos" />
                             <a href="servicios.ver.php">
-                                <input type="button" value="Salir" />
+                                <input type="button" class="btn btn-default" value="Salir" />
                             </a>
                         </fieldset>
                         <p>&nbsp;</p>

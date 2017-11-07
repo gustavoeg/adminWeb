@@ -16,14 +16,13 @@ $UsuariosWorkflow = new WorkflowUsuarios();
             <article>
                 <div class="content">
                     <h3>Gesti&oacute;n de Servicios</h3>
-                    <h4>Usuario del Sistema</h4>
-                    <p>A continuaci&oacute;n se muestran servicios del Sistema.</p>
+                    <p>A continuaci&oacute;n se muestran servicios del Sistema. Los Email con (*) no son de ecargados.</p>
                     <p>
                     <fieldset>
                         <legend>Opciones</legend>
 <!--                        creacion del boton NUEVO-->
                         <a href="servicios.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Habilitar
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                         </a>
                     </fieldset>
                     </p>
@@ -43,7 +42,7 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                             <?php
                             //$res = $mysqli->query("SELECT * FROM checkpoint.servicios");
                             $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                    . "SELECT s.idservicios, s.nombre, s.email_valoraciones, s.habilitado, s.icono, u.nombre as encargado "
+                    . "SELECT s.idservicios, s.nombre, s.email_valoraciones, s.habilitado, s.icono, u.nombre as encargado, u.email as email_usuario "
                                     . "FROM " . Constantes::BD_SCHEMA . ".servicios s "
                                     . "join " . Constantes::BD_SCHEMA . ".usuario u "
                                     . "on s.usuario_idusuario=u.idusuario ");
@@ -54,12 +53,12 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                                     <td><?php echo $row['nombre'] ?></td>
                                     <td><?php echo $row['encargado'] ?></td>
                                     <td><?php if(($row['email_valoraciones']) != ''){
-                                        echo $row['email_valoraciones'];
+                                        echo $row['email_valoraciones']." (*)";
                                     }else{
-                                        echo "<i>Email de Encargado</i>";
+                                        echo $row['email_usuario'];
                                     }
                                      ?></td>
-                                    <td><img src="../imagenes/iconos/png/<?php echo str_pad($row['icono'], 3, "0", STR_PAD_LEFT).".png";  ?>" width="32" /></td>
+                                    <td><img src="../imagenes/iconos/png/<?php echo $row['icono'].".png";  ?>" width="32" /></td>
                                     <td><?php if($row['habilitado'] =='1'){echo "Si";}else{echo "No";} ?></td>
                                     <td>
                                         <a href="servicios.editar.php?id=<?php echo $row['idservicios'] ?>">

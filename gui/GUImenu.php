@@ -27,7 +27,7 @@
 
                 <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_UBICACION)) { ?>
                     <li>
-                        <a href="../app/ubicacion.php">Ubicacion</a>
+                        <a href="../app/ubicacion.ver.php">Ubicacion</a>
                     </li>
                 <?php } ?>
                     

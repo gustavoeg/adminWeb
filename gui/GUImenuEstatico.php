@@ -3,7 +3,6 @@
 <link rel="stylesheet" type="text/css" href="../gui/menu/dist/css/slimmenu.min.css">
 <!-- Bootstrap -->
 <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="../gui/bootstrap/dataTables.bootstrap.min.css" rel="stylesheet" />
 <link href="../gui/bootstrap/responsive.bootstrap.min.css" rel="stylesheet" />
 
 <header id="main-header">
@@ -11,7 +10,4 @@
         <span class="site-name"><?php echo Constantes::NOMBRE_SISTEMA; ?></span>
         <span class="site-desc">UNPA-UARG</span>
     </a>
-
-
-
 </header>

@@ -8,22 +8,21 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         
-        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
-        <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+        <noscript>
+            <meta http-equiv="refresh" content="0; URL=nojs/index.php">
+        </noscript>
+<!--        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
+        <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>-->
         
-<script src="../lib/datatables/jquery.js"></script>
+        <script src="../lib/datatables/jquery.js"></script>
 
-<script src="../lib/validador.js" type="text/javascript"></script>
-<script src="../lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../lib/validador.js" type="text/javascript"></script>
+        <script src="../lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="../lib/bootstrap/js/bootstrap-slider.min.js" type="text/javascript"></script>
-
+        <script src="../lib/bootstrapSwitch/js/bootstrap-switch.min.js"></script>
         
-<link type="text/css" rel="stylesheet" href="../lib/jQueryToggleSwitch/css/rcswitcher.css">
-<script type="text/javascript" src="../lib/jQueryToggleSwitch/js/jquery-2.1.3.min.js"></script>
-<script type="text/javascript" src="../lib/jQueryToggleSwitch/js/rcswitcher.js"></script>
-
-        
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.9.0/css/bootstrap-slider.min.css" type="text/css" rel="stylesheet" />
+        <link href="../lib/bootstrap/css/bootstrap-slider.min.css" type="text/css" rel="stylesheet" />
+        <link href="../lib/bootstrapSwitch/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         
         
@@ -39,57 +38,79 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>
                         <fieldset>
                             <legend>Propiedades</legend>
+                            <div class="form-group row">
+                                <label for="nombre" class="col-sm-4 col-form-label">Nombre Valoracion (*)</label>
+                                <div class="col-sm-8">
+                                    <input type="text" name="nombre" id="nombre" title="Nombre de la Valoracion" />
+                                    <script>validador.addValidation("nombre", "obligatorio");</script>
+                                    <script>validador.addValidation("nombre", "solotexto");</script>
+                                </div>
+                            </div>
                             
-                            <p>Nombre Valoracion (*)<br>
-                                <input type="text" name="nombre" id="nombre" title="Nombre de la Valoracion" />
-                                <script>validador.addValidation("nombre", "obligatorio");</script>
-                                <script>validador.addValidation("nombre", "solotexto");</script>
-                            </p>
-
-                            <p>Tipo de Valoracion (*)<br>
-                               <select name="tipo" title="Tipo de valoracion">
-                                    <option value="0">Seleccione</option>
+                            <div class="form-group row">
+                                <label for="nombre" class="col-sm-4 col-form-label">Tipo de Valoracion (*)</label>
+                                <div class="col-sm-8">
+                                    <select name="tipo" title="Tipo de valoracion">
                                     <?php
                                     /* consulta para obtener los tipos de valoraciones que estan 
                                      * contenido en la definicion del campo enumerado */
                                     $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                            . "SELECT u.idusuario, u.nombre "
-                                            . "FROM " . Constantes::BD_USERS . ".usuario u "
-                                            . "join " . Constantes::BD_USERS . ".usuario_rol ur on u.idusuario=ur.idusuario "
-                                            . "join " . Constantes::BD_USERS . ".rol r on r.idrol=ur.idrol "
-                                            . "where r.nombre='" . PermisosSistema::ROL_ENCARGADO . "' "
-                                            . "order by u.nombre asc;");
-                                    for ($x = 0; $x < $datos->num_rows; $x++) {
-                                        $encargado = $datos->fetch_assoc();
-                                        ?>
-                                        <option value="<?= $encargado['idusuario']; ?>"><?= $encargado['nombre']; ?></option>
+                                            . "SHOW COLUMNS "
+                                            . "FROM " . Constantes::BD_USERS . ".valoraciones LIKE 'tipo';");
+                                    if($datos->num_rows > 0) {
+                                        $tipo = $datos->fetch_row();
+                                        preg_match_all("/'([\w ]*)'/", $tipo[1], $values);
+                                    }
+                                    foreach ($values[1] as $opcion){ ?>
+                                        <option value="<?= $opcion; ?>"><?= $opcion; ?></option>
                                     <?php } ?>
-                                </select>
-                            <p/>
+                                    </select>
+                                </div>
+                            </div>
 
-                            <p class="habilitado">Recibir Notificacion<br />
-                                <input type="checkbox" name="recibir_notificacion" value="1" checked/><br />
-                            </p>
+                            <div class="form-group row">
+                                <label for="recibirNotificacion" class="col-sm-4 col-form-label">Recibir Notificacion por Email</label>
+                                <div class="col-sm-8">
+                                    <input id="recibirNotificacion" type="checkbox" name="recibir_notificacion" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" value="1" checked/>
+                                </div>
+                            </div>
 
-                            <p class="habilitado">Permite Foto<br />
-                                <input type="checkbox" name="pertmite_foto" value="1" checked/><br />
-                            </p>
+                            <div class="form-group row">
+                                    <label for="permite_foto" class="col-sm-4 col-form-label">Permite Foto</label>
+                                    <div class="col-sm-8">
+                                        <input id="permite_foto" type="checkbox" name="pertmite_foto" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" value="1" checked/>
+                                    </div>
+                            </div>
                             
-                            <p class="habilitado">Permite Descripcion<br />
-                                <input type="checkbox" name="permite_descripcion" value="1" checked/><br />
-                            </p>
+                            <div class="form-group row">
+                                    <label for="permite_descripcion" class="col-sm-4 col-form-label">Permite Descripcion</label>
+                                    <div class="col-sm-8">
+                                        <input id="permite_descripcion" type="checkbox" name="permite_descripcion" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" value="1" checked/>
+                                    </div>
+                            </div>
                             
-                            <p class="habilitado">Permite Email<br />
-                                <input type="checkbox" name="permite_email" value="1" checked/><br />
-                            </p>
+                            <div class="form-group row">
+                                    <label for="permite_email" class="col-sm-4 col-form-label">Permite Email</label>
+                                    <div class="col-sm-8">
+                                        <input id="permite_email" type="checkbox" name="permite_email" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" value="1" checked/>
+                                    </div>
+                            </div>
                             
-                            <p class="habilitado">Habilitado<br />
-                                <input type="checkbox" name="habilitado" value="1" checked/><br />
-                            </p>
-                            <p>Vencimiento (*)<br />
-                                <input id="ex7" type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="5" data-slider-enabled="false"/>
-                                <input id="ex7-enabled" type="checkbox"/> Sin Vencimiento
-                            </p>
+                            <div class="form-group row">
+                                    <label for="habilitado" class="col-sm-4 col-form-label">Habilitado</label>
+                                    <div class="col-sm-8">
+                                        <input id="habilitado" type="checkbox" name="habilitado" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" value="1" checked/>
+                                    </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="habilitado" class="col-sm-4 col-form-label">Vencimiento (d&iacute;as)</label>
+                                <div class="col-sm-8">
+                                    <input id="ex7" type="text" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]' data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <input id="ex7-enabled" type="checkbox"/> Sin Vencimiento
+                                </div>
+                            </div>
                             
                         </fieldset>
 
@@ -109,7 +130,12 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
             <script>
                 $(document).ready(function () {
                     //$("#ex7").slider();
-                    var slider = new Slider("#ex7");
+                    var slider = new Slider("#ex7", {
+                         ticks: [1, 5, 10, 15],
+                         ticks_labels: ['1', '5', '10', '15'],
+                         ticks_snap_bounds: 2,
+                        tooltip: 'always'
+                    });
 
                     
                     $("#ex7-enabled").click(function() {
@@ -117,35 +143,21 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
                             // With JQuery
                             //$("#ex7").slider("enable");
                             
-                            slider.enable();
+                            slider.disable();
                         }else {
                             // With JQuery
                             //$("#ex7").slider("disable");
                             
-                            slider.disable();
+                            slider.enable();
                        	}
                     });
+                    
+                    $("[name='recibir_notificacion']").bootstrapSwitch();
+                    $("[name='pertmite_foto']").bootstrapSwitch();
+                    $("[name='permite_descripcion']").bootstrapSwitch();
+                    $("[name='permite_email']").bootstrapSwitch();
+                    $("[name='habilitado']").bootstrapSwitch();
 
-                    $('.habilitado :checkbox').rcSwitcher({
-                        // reverse: true,
-                        inputs: false,
-                        // width: 70,
-                        // height: 24,
-                        // blobOffset: 2,
-                        onText: 'Si',
-                        offText: 'No',
-                        theme: 'light'
-                        // autoFontSize: true,
-                    }).on({
-                        'enable.rcSwitcher': function (e, data)
-                        {
-                            console.log('Enabled', data);
-                        },
-                        'disable.rcSwitcher': function (e, data)
-                        {
-                            console.log('Disabled');
-                        }
-                    }); 
                 });
             </script>
         </section>

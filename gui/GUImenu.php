@@ -17,7 +17,7 @@
         <nav>
 
             <ul class="slimmenu">
-                <li><a href="../app/servicios.ver.php" title="Principal">Home</a></li>
+                <li><a href="../app/bienvenido.php" title="Principal">Home</a></li>
 
                 <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_SERVICIOS)) { ?>
                     <li>

@@ -4,6 +4,11 @@ include_once '../lib/ControlAcceso.class.php'; ?>
 <html>
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
+<!--cuando no hay javascript, no se debe permitir operar, se redirige a una pagina neutra.-->
+        <noscript>
+            <meta http-equiv="refresh" content="0; URL=sinJavascript.php">
+        </noscript>
+        
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />

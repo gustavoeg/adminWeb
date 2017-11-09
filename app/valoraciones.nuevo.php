@@ -48,9 +48,9 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
                             </div>
                             
                             <div class="form-group row">
-                                <label for="nombre" class="col-sm-4 col-form-label">Tipo de Valoracion (*)</label>
+                                <label for="tipo" class="col-sm-4 col-form-label">Tipo de Valoracion (*)</label>
                                 <div class="col-sm-8">
-                                    <select name="tipo" title="Tipo de valoracion">
+                                    <select id="tipo" name="tipo" title="Tipo de valoracion">
                                     <?php
                                     /* consulta para obtener los tipos de valoraciones que estan 
                                      * contenido en la definicion del campo enumerado */
@@ -104,11 +104,11 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
                             </div>
                             
                             <div class="form-group row">
-                                <label for="habilitado" class="col-sm-4 col-form-label">Vencimiento (d&iacute;as)</label>
+                                <label for="ex7" class="col-sm-4 col-form-label">Vencimiento (d&iacute;as)</label>
                                 <div class="col-sm-8">
-                                    <input id="ex7" type="text" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]' data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
+                                    <input name="vencimiento" id="ex7" type="text" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]' data-slider-min="1" data-slider-max="15" data-slider-step="1" data-slider-value="1" data-slider-enabled="true"/>
                                     &nbsp;&nbsp;&nbsp;
-                                    <input id="ex7-enabled" type="checkbox"/> Sin Vencimiento
+                                    <input id="ex7-enabled"  name="sinvencimiento"type="checkbox"/> Sin Vencimiento
                                 </div>
                             </div>
                             

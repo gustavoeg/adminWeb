@@ -9,6 +9,7 @@ include_once '../lib/ControlAcceso.class.php'; ?>
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../gui/responsivo.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
+        <script type="text/javascript" src="../lib/datatables/jquery.js"></script>
         <script type="text/javascript" src="../lib/jQuery/jquery.redirect.js"></script>
         <script type="text/javascript" src="../lib/login.js"></script>
     </head>

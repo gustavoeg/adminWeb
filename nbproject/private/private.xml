@@ -3,16 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/checkpoint/app/servicios.nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/app/valoraraciones.ubicacion.php</file>
             <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.nuevo.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/gui/GUImenuEstatico.php</file>
             <file>file:/C:/xampp/htdocs/checkpoint/app/servicios.ver.php</file>
             <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.nuevo.procesa.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/gui/GUImenu.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/app/sinJavascript.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/app/index.php</file>
-            <file>file:/C:/xampp/htdocs/checkpoint/gui/GUIfooter.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.ver.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/app/workflow.permiso.nuevo.procesa.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/lib/ObjetoDatos.class.php</file>
         </group>
     </open-files>
 </project-private>

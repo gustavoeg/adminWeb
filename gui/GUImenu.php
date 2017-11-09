@@ -17,7 +17,7 @@
         <nav>
 
             <ul class="slimmenu">
-                <li><a href="../app/bienvenido.php" title="Principal">Home</a></li>
+                <li><a href="../app/bienvenido.php" title="Principal">Inicio</a></li>
 
                 <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_SERVICIOS)) { ?>
                     <li>
@@ -51,20 +51,20 @@
                         </ul>
                     </li>
                 <?php } ?>
-
             </ul>
 
             <?php if (isset($_SESSION['usuario'])) { ?>
                 <table>
                     <tr>
                         <td>
-                            Usuario: <?php echo $_SESSION['usuario']->nombre." (".PermisosSistema::ROL_ADMIN.")"; ?><br />
+                            Usuario: <?php echo $_SESSION['usuario']->nombre; ?><br/>
                             (<?php echo $_SESSION['usuario']->email; ?>) :: 
                             <a href="../app/salir.php">Salir</a>
                         </td>
                         <td><img src="<?php echo $_SESSION['usuario']->imagen; ?>" style="height:30px; padding: 0; margin: 0" /></td>
                     </tr>
-                </table>
+                </table>                    
+                
             <?php } ?>
 
         </nav>

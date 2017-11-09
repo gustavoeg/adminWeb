@@ -10,7 +10,7 @@ include_once '../lib/ControlAcceso.class.php'; ?>
         </noscript>
         
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
+        <meta name="google-signin-client_id" content="525712718012-3orata9pbt2spvti1vt34551i34lptbm.apps.googleusercontent.com" />
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../gui/responsivo.css" type="text/css" rel="stylesheet" />
         <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>

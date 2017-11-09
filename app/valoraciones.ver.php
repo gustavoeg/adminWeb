@@ -46,9 +46,6 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                         </thead>
                         <tbody>
                             <?php
-                            //$res = $mysqli->query("SELECT v.idvaloraciones, v.nombre, v.tipo, v.recibir_notificacion_email, v.permite_foto, v.permite_descripcion, v.permite_email, v.habilitado, v.vencimiento, s.nombre as servicio FROM valoraciones v
-//JOIN servicios s ON v.fk_servicios_idservicios = s.idservicios
-//WHERE 1");
                             $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
                     . "SELECT v.idvaloraciones, v.nombre, v.tipo, v.recibir_notificacion_email, v.permite_foto, v.permite_descripcion, v.permite_email, v.habilitado, v.vencimiento, s.nombre as servicio "
                                     . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
@@ -89,8 +86,7 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                             ?>
                         </tbody>
                     </table> 
-
-                    
+      
                     <p>&nbsp;</p>
                 </div>
             </article>

@@ -1,130 +1,131 @@
 <?php
+
 include_once '../lib/ControlAcceso.class.php';
 include_once '../modelo/Workflow.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
 $UsuariosWorkflow = new WorkflowUsuarios();
-?>
-<html>
-    <head>
-        <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
-    </head>
-    <body>
-        <?php include_once '../gui/GUImenu.php'; ?>
-        <section id="main-content">
-            <article>
-                <div class="content">
-                    <?php 
-                    /* parte en la que se obtiene el/los servicios del usuario encargado */
-                    $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                            . "SELECT s.idservicios, s.nombre as servicio "
-                            . "FROM " . Constantes::BD_SCHEMA . ".usuario u "
-                            . "join " . Constantes::BD_SCHEMA . ".servicios  s "
-                            . "ON u.idusuario=s.usuario_idusuario "
-                            . "WHERE u.idusuario = 7 "
-                            . "ORDER BY s.nombre ASC ");
-                            while ($row = $res->fetch_assoc()):
-                            
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['nombre'] ?></td>
-                    ?>
-                    <h3>Gesti&oacute;n de Valoraciones del servicio «<?php ?>»</h3>
-                    <p>A continuaci&oacute;n se muestran las valoracioens disponibles del Sistema.</p>
-                    <p>
-                    <fieldset>
-                        <legend>Opciones</legend>
-<!--                        creacion del boton NUEVO-->
-                        <a href="valoraciones.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva
-                        </a>
-                    </fieldset>
-                    </p>
 
-                    <table id="tablavaloraciones" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-<!--                   idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion,
-                        permite_email, habilitado, vencimiento,fk_servicios_idservicios -->
-                                <th>Nombre</th>
-                                <th>Tipo</th>
-                                <th>Notificacion Email</th>
-                                <th>Foto</th>
-                                <th>descripcion</th>
-                                <th>Email</th>
-                                <th>Vencimiento</th>
-                                <th>Habilitado</th>
-                                <th>Servicio</th>
-                                <th>Acci&oacute;n</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                    . "SELECT v.idvaloraciones, v.nombre, v.tipo, v.recibir_notificacion_email, v.permite_foto, v.permite_descripcion, v.permite_email, v.habilitado, v.vencimiento, s.nombre as servicio "
-                                    . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
-                                    . "join " . Constantes::BD_SCHEMA . ".servicios  s "
-                                    . "ON v.fk_servicios_idservicios = s.idservicios ");
-                            while ($row = $res->fetch_assoc()):
-                            
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['tipo'] ?></td>
-                                    <td><?php if(($row['recibir_notificacion_email']) != ''){
-                                        echo $row['email_valoraciones']." (*)";
-                                    }else{
-                                        echo $row['email_usuario'];
-                                    }
-                                     ?></td>
-                                    <td><?php if($row['habilitado'] =='1'){echo "Si";}else{echo "No";} ?></td>
-                                    <td><?php if($row['permite_foto'] =='1'){echo "Si";}else{echo "No";} ?></td>
-                                    <td><?php if($row['permite_descripcion'] =='1'){echo "Si";}else{echo "No";} ?></td>
-                                    <td><?php if($row['permite_email'] =='1'){echo "Si";}else{echo "No";} ?></td>
-                                    
-                                    <td><?php echo $row['vencimiento']; ?></td>
-                                    <td><?php echo $row['servicio']; ?></td>
-                                    
-                                    <td>
-                                        <a href="valoraciones.editar.php?id=<?php echo $row['idvaloraciones'] ?>">
-                                            <img src="../imagenes/abm_ver.png" title="Ver/Editar">
-                                        </a>
-                                       
-                                        <a onclick="return confirm('Seguro que desea Deshabilitar?')" href="valoraciones.eliminar.php?id=<?php echo $row['idvaloraciones'] ?>">
-                                            <img src="../imagenes/abm_eliminar.png" title="Eliminar">
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php
-                            endwhile;
-                            ?>
-                        </tbody>
-                    </table> 
-      
-                    <p>&nbsp;</p>
-                </div>
-            </article>
-        </section>
-<!--        parte en la que va para que se implemente datatables-->
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../lib/datatables/jquery.js"></script>
-    <!-- Include all compiled plugins (below), or include <span id="IL_AD8" class="IL_AD">individual</span> files as needed -->
-<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="../lib/datatables/jquery.dataTables.min.js"></script>
-<script src="../lib/datatables/dataTables.bootstrap.min.js"></script>
-<script src="/lib/datatables/dataTables.responsive.min.js"></script>
-<script src="/lib/datatables/responsive.bootstrap.min.js"></script>
-	
-    <script type="text/javascript" charset="utf-8">
-         $(document).ready(function() {
-   $('#tablavaloraciones').dataTable({
-       "oLanguage": {
-            "sUrl": "../lib/datatables/Spanish.json"
-            }
-   });
- });
-    </script>
-        <?php include_once '../gui/GUIfooter.php'; ?>
-    </body>
-</html>
+include_once('../lib/easytemplate.php');
+
+$contenedor = load("../gui/html/valoraciones.ver.html");
+
+
+$contenedor = setVar($contenedor, 'nombre_sistema', Constantes::NOMBRE_SISTEMA);
+
+
+$menu = get_include_contents("../gui/GUImenu.php");
+$contenedor = replaceHTML($contenedor, 'encabezado', $menu);
+/* parte en la que se obtiene el/los servicios del usuario encargado */
+$res = ObjetoDatos::getInstancia()->ejecutarQuery(""
+        . "SELECT s.idservicios, s.nombre as servicio "
+        . "FROM " . Constantes::BD_SCHEMA . ".usuario u "
+        . "join " . Constantes::BD_SCHEMA . ".servicios  s "
+        . "ON u.idusuario=s.usuario_idusuario "
+        . "WHERE u.idusuario = " . $_SESSION['usuario']->idusuario . " "
+        . "ORDER BY s.nombre ASC ");
+$cantidad = 0;
+if ($res) {
+    $cantidad = $res->num_rows;
+}
+/* si la cantidad es cero, mensaje advertencia y opcion de salir
+ * si la cantidad es una, solo muestra ese servicio,
+ * si la cantidad es mayor a una, se muestra el primer servicio y un combobox para los restantes
+ *  */
+if ($cantidad == 0) {
+    //encargado sin servicio
+    $titulo = "No hay servicio para administrar";
+    //sacar el resto de la pagina
+    $contenedor = delHTML($contenedor, 'hay_servicios');
+} else {
+    $primero = $res->fetch_assoc();
+    $titulo = "Gestion de valoraciones para el servicio " . $primero['servicio'];
+
+    //region de html para personalizar
+    $hay_servicios = getHTML($contenedor, 'hay_servicios');
+
+    if ($cantidad == 1) {
+        $hay_servicios = delHTML($hay_servicios, 'select_servicio');
+    } else {
+        //encargado con mas de un servicio
+        //mostrar un combobox para las demas opciones
+        $select = "<select name='cambioServicio'><option value='" . $primero['idservicio'] . "'>" . $primero['servicio'] . "</option>";
+        while ($option = $res->fetch_assoc()) {
+            $select .= "<option value='" . $option['idservicio'] . "'>" . $option['servicio'] . "</option>";
+        }
+        $select .= "</select>";
+        $hay_servicios = replaceHTML($contenedor, 'select_servicio', $select);
+    }
+    $contenedor = delHTML($contenedor, 'sin_servicio');
+
+    //parte de la tabla principal
+}
+$contenedor = setvar($contenedor, 'titulo', $titulo);
+
+
+
+
+/*                   idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion,
+  permite_email, habilitado, vencimiento,fk_servicios_idservicios */
+
+$res = ObjetoDatos::getInstancia()->ejecutarQuery(""
+        . "SELECT v.idvaloraciones, v.nombre, v.tipo, v.recibir_notificacion_email, v.permite_foto, v.permite_descripcion, v.permite_email, v.habilitado, v.vencimiento, s.nombre as servicio "
+        . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
+        . "join " . Constantes::BD_SCHEMA . ".servicios  s "
+        . "ON v.fk_servicios_idservicios = s.idservicios ");
+$totalFilas = '';
+while ($row = $res->fetch_assoc()) {
+    $getFila = getHTML($hay_servicios, 'fila_servicio');
+    $filas = setvar($getFila, 'valoracion_nombre', $row['nombre']);
+    $filas = setvar($getFila, 'tipo', $row['tipo']);
+    if (($row['recibir_notificacion_email']) != '') {
+        $filas = setvar($getFila, 'recibir_notificacion_email', $row['recibir_notificacion_email'] . " (*)");
+    } else {
+        $filas = setvar($getFila, 'recibir_notificacion_email', $row['email_usuario']);
+    }
+    $filas = setvar($getFila, 'email_valoraciones', $row['email_valoraciones']);
+    $filas = setvar($getFila, 'permite_email', $row['permite_email']);
+    if ($row['habilitado'] == '1') {
+        $hab = "Si";
+    } else {
+        $hab = "No";
+    }
+    $filas = setvar($getFila, 'habilitado', $hab);
+    if ($row['permite_foto'] == '1') {
+        $foto = "Si";
+    } else {
+        $foto = "No";
+    }
+    $filas = setvar($getFila, 'permite_foto', $foto);
+    if ($row['permite_descripcion'] == '1') {
+        $desc = "Si";
+    } else {
+        $desc = "No";
+    }
+    $filas = setvar($getFila, 'permite_descripcion', $descripcion);
+    if ($row['permite_email'] == '1') {
+        $email = "Si";
+    } else {
+        $email = "No";
+    }
+    $filas = setvar($getFila, 'permite_foto', $email);
+    $filas = setvar($getFila, 'vencimiento', $row['vencimiento']);
+    $filas = setvar($getFila, 'servicio', $row['servicio']);
+    $filas = setvar($getFila, 'idvaloraciones', $row['idvaloraciones']);
+    $totalFilas .= $filas;
+}
+$hay_servicios = replaceHTML($hay_servicios, 'fila_servicio', $totalFilas);
+$contenedor = replaceHTML($contenedor, 'hay_servicios', $hay_servicios);
+
+$contenedor = replaceHTML($contenedor, 'footer', get_include_contents('../gui/GUIfooter.php'));
+echo cleanup($contenedor);
+
+function get_include_contents($filename) {
+    if (is_file($filename)) {
+        ob_start();
+        include $filename;
+        return ob_get_clean();
+    }
+    return false;
+}
+
+?>

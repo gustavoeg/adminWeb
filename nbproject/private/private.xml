@@ -4,6 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.nuevo.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/app/servicios.ver.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.nuevo.procesa.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/gui/GUImenu.php</file>
+            <file>file:/C:/xampp/htdocs/checkpoint/lib/ControlAcceso.class.php</file>
             <file>file:/C:/xampp/htdocs/checkpoint/app/valoraciones.ver.php</file>
         </group>
     </open-files>

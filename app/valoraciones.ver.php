@@ -15,7 +15,22 @@ $UsuariosWorkflow = new WorkflowUsuarios();
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Gesti&oacute;n de Valoraciones</h3>
+                    <?php 
+                    /* parte en la que se obtiene el/los servicios del usuario encargado */
+                    $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
+                            . "SELECT s.idservicios, s.nombre as servicio "
+                            . "FROM " . Constantes::BD_SCHEMA . ".usuario u "
+                            . "join " . Constantes::BD_SCHEMA . ".servicios  s "
+                            . "ON u.idusuario=s.usuario_idusuario "
+                            . "WHERE u.idusuario = 7 "
+                            . "ORDER BY s.nombre ASC ");
+                            while ($row = $res->fetch_assoc()):
+                            
+                                ?>
+                                <tr>
+                                    <td><?php echo $row['nombre'] ?></td>
+                    ?>
+                    <h3>Gesti&oacute;n de Valoraciones del servicio «<?php ?>»</h3>
                     <p>A continuaci&oacute;n se muestran las valoracioens disponibles del Sistema.</p>
                     <p>
                     <fieldset>

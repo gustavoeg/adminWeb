@@ -65,9 +65,6 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                                             <img src="../imagenes/abm_ver.png" title="Ver/Editar">
                                         </a>
                                        
-                                        <a onclick="return confirm('Seguro que desea Deshabilitar?')" href="servicios.eliminar.php?id=<?php echo $row['idservicios'] ?>">
-                                            <img src="../imagenes/abm_eliminar.png" title="Eliminar">
-                                        </a>
                                     </td>
                                 </tr>
                                 <?php

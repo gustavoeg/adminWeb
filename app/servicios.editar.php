@@ -2,25 +2,42 @@
 include_once '../lib/ControlAcceso.class.php';
 //include_once '../modelo/Workflow.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
+/* obtencion de los datos sobre los que se va a trabajar */
+//$servicio = new Servicio($_GET['id']);
+//
+$datos_antes = ObjetoDatos::getInstancia()->ejecutarQuery(""
+        . ""
+        . "SELECT * FROM checkpoint.servicios "
+        . "WHERE idservicios = {$_GET['id']}");
+ 
+if($datos_antes != null){
+$servicio_antes = $datos_antes->fetch_assoc();
+//obtension del nombre
+$nombre_actual=$servicio_antes['nombre'];
+//obtencion de correo electronico valoraciones
+$email_valoraciones_actual = $servicio_antes['email_valoraciones'];     //si es nulo, entonces es el email del encarado
+//obtencion de estado (habilitado)
+$habilitado_actual = $servicio_antes['habilitado'];
+//obtencion de encargado
+$encargado_actual = $servicio_antes['usuario_idusuario'];
+//obtencion del numero de icono
+$icono_actual = $servicio_antes['icono'];   
+}
 ?>
 <html>
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        
-        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
-        <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
-        
+       
         <script src="../lib/validador.js" type="text/javascript"></script>
         <script src="../lib/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-        <link type="text/css" rel="stylesheet" href="../lib/jQueryToggleSwitch/css/rcswitcher.css">
-        <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/jquery-2.1.3.min.js"></script>
-        <script type="text/javascript" src="../lib/jQueryToggleSwitch/js/rcswitcher.js"></script>
+        <script src="../lib/bootstrapSwitch/js/bootstrap-switch.min.js"></script>
 
         <script src="../lib/imagepicker/image-picker.js" type="text/javascript"></script>
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
         <link href="../lib/imagepicker/image-picker.css" type="text/css" rel="stylesheet" />
+        <link href="../lib/bootstrapSwitch/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet">
         
     </head>
     <body>
@@ -28,37 +45,42 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Habilitacion de un nuevo Servicio</h3>
+                    <h3>Editar Servicio «<?php echo $nombre_actual;?>»</h3>
                     <p>Por favor complete los datos a continuaci&oacute;n. Los campos marcados con (*) son obligatorios.</p>
-                    <form method="post" action="servicio.nuevo.procesa.php" name="formulario" >
+                    <form method="post" action="servicio.editar.procesa.php" name="formulario" >
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>
                         <fieldset>
-                            <legend>Propiedades</legend>      
-                            <p>Nombre Servicio (*)<br>
-                                <input type="text" name="nombre" id="nombre" title="Nombre del Servicio" />
-                                <script>validador.addValidation("nombre", "obligatorio");</script>
-                                <script>validador.addValidation("nombre", "solotexto");</script>
-                            </p>
+                            <legend>Propiedades</legend>   
+                            <input type="hidden" name="idservicio" value="<?php echo $_GET['id'];?>" />
+                            <div class="form-group row">
+                                    <label class="col-sm-5 col-form-label">Nombre Servicio (*)</label>
+                                    <div class="col-sm-7">
+                                        <span><?php echo $nombre_actual;?></span>
+                                    </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                    <label class="col-sm-5 col-form-label">Correo electr&oacute;nico Valoraciones (*)</label>
+                                    <div class="col-sm-7">
+                                        <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" <?php
+                                if(($email_valoraciones_actual == '')){ echo " checked";}?> /> </label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
+                                        <input type="text" name="email" id="email" title="Correo electronico" size="40" <?php if($email_valoraciones_actual != ''){echo " value='".$email_valoraciones_actual."' ";}else{ echo " value = '' disabled='true' ";} ?> />
+                                    </div>
+                            </div>
+ 
+                            <div class="form-group row">
+                                    <label for="habilitado" class="col-sm-5 col-form-label">Habilitado</label>
+                                    <div class="col-sm-7">
+                                        <input id="habilitado" type="checkbox" name="habilitado" data-label-width="5"  data-on-text="Si" data-off-text="No" data-size="mini" <?php if($habilitado_actual){echo " checked ";}?> />
+                                    </div>
+                            </div>
 
-                            <p>Correo electr&oacute;nico Valoraciones (*)<br>
-
-                                <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
-                                <input type="text" name="email" id="email" title="Correo electronico" />
-                                <script>//validador.addValidation("email", "obligatorio");</script>
-                                <script>validador.addValidation("email", "email");</script>
-                            <p/>
-
-<!--                            en el momento de su creacion, esta deshabilitado-->
-<!--                            <p class="habilitado">Habilitado<br />
-
-                                <input type="checkbox" name="estado" value="1" checked/><br />
-                            </p>-->
-                            <input type="hidden" name="estado" value="0">
-
-                            <p>Encargado (*)<br />
-
-                                <select name="idencargado" title="Encargado">
+                            
+                                <div class="form-group row">
+                                    <label for="habilitado" class="col-sm-5 col-form-label">Encargado (*)</label>
+                                    <div class="col-sm-7">
+                                        <select name="idencargado" title="Encargado">
                                     <option value="0">Seleccione</option>
                                     <?php
                                     $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
@@ -70,25 +92,27 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                             . "order by u.nombre asc;");
                                     for ($x = 0; $x < $datos->num_rows; $x++) {
                                         $encargado = $datos->fetch_assoc();
+                                        if($encargado['idusuario'] == $encargado_actual){ $selected = "selected =  'selected' ";}else{$selected="";}
                                         ?>
-                                        <option value="<?= $encargado['idusuario']; ?>"><?= $encargado['nombre']; ?></option>
+                                        <option value="<?= $encargado['idusuario']; ?>" <?php echo $selected;?>><?= $encargado['nombre']; ?></option>
                                     <?php } ?>
                                 </select>
                                 <script>validador.addValidation("idencargado", "selectOptions=0");</script>
-                                o registrar nuevo encargado
-<!--                                llamar al formulario de creacion de usuarios-->
-                                <a href="./workflow.usuario.nuevo.php">
-                                    <input type="button" class="btn btn-info" value="Agregar Usuarios..."/>
-                                </a> 
-                            </p>
-                            <p>
-                                <img id="icono" src="../imagenes/iconos/png/000.png"  />
-
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                    Seleccionar Icono
-                                </button>
-
+                                    </div>
+                                </div>
+                                
+                            <div class="form-group row">
+                                    <label for="icono" class="col-sm-5 col-form-label">Icono</label>
+                                    <div class="col-sm-7">
+                                        <img id="icono" src="../imagenes/iconos/png/<?php echo $icono_actual;?>.png" />
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                            Seleccionar Icono
+                                        </button>
+                                    </div>
+                            </div>
+                                    
+                              
                                 <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
@@ -105,8 +129,9 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                                 <option value=""></option>
                                                 <?php
                                                 for ($i = 1; $i <= 100; $i++) {
+                                                    if($i == $icono_actual){$selected=" selected='selected'";}else{$selected="";}
 
-                                                    echo "<option data-img-src='../imagenes/iconos/png/" . $i . ".png' value='" . $i . "'>Icono$i</option>";
+                                                    echo "<option data-img-src='../imagenes/iconos/png/" . $i . ".png' value='" . $i . "' ".$selected.">Icono$i</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -119,7 +144,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                     </div>
                                 </div>
                             </div>
-                            </p>
+                   
                         </fieldset>
 
                         <fieldset>
@@ -137,28 +162,8 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
             </article>
             <script>
                 $(document).ready(function () {
-                    $("#email").prop('disabled', true);
 
-                    $('.habilitado :checkbox').rcSwitcher({
-                        // reverse: true,
-                        inputs: false,
-                        // width: 70,
-                        // height: 24,
-                        // blobOffset: 2,
-                        onText: 'Si',
-                        offText: 'No',
-                        theme: 'light',
-                        // autoFontSize: true,
-                    }).on({
-                        'enable.rcSwitcher': function (e, data)
-                        {
-                            console.log('Enabled', data);
-                        },
-                        'disable.rcSwitcher': function (e, data)
-                        {
-                            console.log('Disabled');
-                        }
-                    });
+                    $("[name='habilitado']").bootstrapSwitch();
 
                     $("#selecticon").imagepicker({
                         hide_select: true,
@@ -175,7 +180,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                     $('input[name="valoracion"]').on('change', function () {
                         var radioValue = $('input[name="valoracion"]:checked').val();
                         //alert(radioValue);
-                        if (radioValue == 1) {
+                        if (radioValue == 'on') {
                             $("#email").prop('disabled', true);
                             $("#email").prop('value', '');
                             //validador.("email", "obligatorio");
@@ -185,8 +190,6 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                         ;
                     });
                 });
-
-
 
             </script>
         </section>

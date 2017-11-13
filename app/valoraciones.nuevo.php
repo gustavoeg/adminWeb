@@ -11,8 +11,6 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
         <noscript>
             <meta http-equiv="refresh" content="0; URL=nojs/index.php">
         </noscript>
-<!--        <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
-        <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>-->
         
         <script src="../lib/datatables/jquery.js"></script>
 

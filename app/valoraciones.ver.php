@@ -58,13 +58,8 @@ if ($cantidad == 0) {
     $contenedor = delHTML($contenedor, 'sin_servicio');
 
     //parte de la tabla principal
-}
-$contenedor = setvar($contenedor, 'titulo', $titulo);
-
-
-
-
-/*                   idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion,
+    
+    /*                   idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion,
   permite_email, habilitado, vencimiento,fk_servicios_idservicios */
 
 $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
@@ -73,7 +68,7 @@ $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
         . "join " . Constantes::BD_SCHEMA . ".servicios  s "
         . "ON v.fk_servicios_idservicios = s.idservicios ");
 $totalFilas = '';
-while ($row = $res->fetch_assoc()) {
+while ($row = $res->fetch_assoc()){
     $getFila = getHTML($hay_servicios, 'fila_servicio');
     $filas = setvar($getFila, 'valoracion_nombre', $row['nombre']);
     $filas = setvar($getFila, 'tipo', $row['tipo']);
@@ -115,6 +110,10 @@ while ($row = $res->fetch_assoc()) {
 }
 $hay_servicios = replaceHTML($hay_servicios, 'fila_servicio', $totalFilas);
 $contenedor = replaceHTML($contenedor, 'hay_servicios', $hay_servicios);
+    
+}
+$contenedor = setvar($contenedor, 'titulo', $titulo);
+
 
 $contenedor = replaceHTML($contenedor, 'footer', get_include_contents('../gui/GUIfooter.php'));
 echo cleanup($contenedor);

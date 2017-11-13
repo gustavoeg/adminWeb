@@ -16,7 +16,7 @@ $UsuariosWorkflow = new WorkflowUsuarios();
             <article>
                 <div class="content">
                     <h3>Gesti&oacute;n de Servicios</h3>
-                    <p>A continuaci&oacute;n se muestran servicios del Sistema. Los Email con (*) no son de ecargados.</p>
+                    <p>A continuaci&oacute;n se muestran servicios del Sistema. Los Email con (*) no son de encargados.</p>
                     <p>
                     <fieldset>
                         <legend>Opciones</legend>
@@ -86,8 +86,8 @@ $UsuariosWorkflow = new WorkflowUsuarios();
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../lib/datatables/jquery.dataTables.min.js"></script>
 <script src="../lib/datatables/dataTables.bootstrap.min.js"></script>
-<script src="/lib/datatables/dataTables.responsive.min.js"></script>
-<script src="/lib/datatables/responsive.bootstrap.min.js"></script>
+<script src="../lib/datatables/dataTables.responsive.min.js"></script>
+<script src="../lib/datatables/responsive.bootstrap.min.js"></script>
 	
     <script type="text/javascript" charset="utf-8">
          $(document).ready(function() {

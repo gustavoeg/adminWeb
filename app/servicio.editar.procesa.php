@@ -26,7 +26,7 @@ ObjetoDatos::getInstancia()->begin_transaction();
         //no se debe modificar
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "UPDATE " . Constantes::BD_USERS . ".servicios "
-                . "SET email_valoraciones = '{$email}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
+                . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
                 . "WHERE idservicios = {$_POST['idservicio']}");
                 
     } catch (Exception $exc) {
@@ -60,11 +60,8 @@ ObjetoDatos::getInstancia()->commit();
                     <p><?php echo $mensaje; ?></p>
                     <fieldset>
                         <legend>Opciones</legend>
-                        <a href="servicios.nuevo.php">
-                            <input type="button" value="Agregar Otro" />
-                        </a>
                         <a href="servicios.ver.php">
-                            <input type="button" value="Ver Servicios" />
+                            <input type="button" class="btn btn-primary" value="Ver Servicios" />
                         </a>
                     </fieldset>    
 

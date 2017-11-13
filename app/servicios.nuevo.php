@@ -34,60 +34,60 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>
                         <fieldset>
                             <legend>Propiedades</legend>      
-                            <p>Nombre Servicio (*)<br>
-                                <input type="text" name="nombre" id="nombre" title="Nombre del Servicio" />
-                                <script>validador.addValidation("nombre", "obligatorio");</script>
-                                <script>validador.addValidation("nombre", "solotexto");</script>
-                            </p>
 
-                            <p>Correo electr&oacute;nico Valoraciones (*)<br>
-
-                                <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
-                                <input type="text" name="email" id="email" title="Correo electronico" />
-                                <script>//validador.addValidation("email", "obligatorio");</script>
-                                <script>validador.addValidation("email", "email");</script>
-                            <p/>
-
-<!--                            en el momento de su creacion, esta deshabilitado-->
-<!--                            <p class="habilitado">Habilitado<br />
-
-                                <input type="checkbox" name="estado" value="1" checked/><br />
-                            </p>-->
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Nombre Servicio (*)</label>
+                                <div class="col-sm-7">
+                                    <input type="text" name="nombre" size="22" maxlength="20" id="nombre" title="Nombre del Servicio" />
+                                    <script>validador.addValidation("nombre", "obligatorio");</script>
+                                    <script>validador.addValidation("nombre", "solotexto");</script>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Correo electr&oacute;nico Valoraciones (*)</label>
+                                <div class="col-sm-7">
+                                    <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
+                                    <input type="text" name="email" id="email" title="Correo electronico" size="45" maxlength="50" />
+                                </div>
+                            </div>
+                            
                             <input type="hidden" name="estado" value="0">
 
-                            <p>Encargado (*)<br />
-
-                                <select name="idencargado" title="Encargado">
-                                    <option value="0">Seleccione</option>
-                                    <?php
-                                    $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                            . "SELECT u.idusuario, u.nombre "
-                                            . "FROM " . Constantes::BD_USERS . ".usuario u "
-                                            . "join " . Constantes::BD_USERS . ".usuario_rol ur on u.idusuario=ur.idusuario "
-                                            . "join " . Constantes::BD_USERS . ".rol r on r.idrol=ur.idrol "
-                                            . "where r.nombre='" . PermisosSistema::ROL_ENCARGADO . "' "
-                                            . "order by u.nombre asc;");
-                                    for ($x = 0; $x < $datos->num_rows; $x++) {
-                                        $encargado = $datos->fetch_assoc();
-                                        ?>
-                                        <option value="<?= $encargado['idusuario']; ?>"><?= $encargado['nombre']; ?></option>
-                                    <?php } ?>
-                                </select>
-                                <script>validador.addValidation("idencargado", "selectOptions=0");</script>
-                                o registrar nuevo encargado
-<!--                                llamar al formulario de creacion de usuarios-->
-                                <a href="./workflow.usuario.nuevo.php">
-                                    <input type="button" class="btn btn-info" value="Agregar Usuarios..."/>
-                                </a> 
-                            </p>
-                            <p>
-                                <img id="icono" src="../imagenes/iconos/png/000.png"  />
-
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                    Seleccionar Icono
-                                </button>
+                            <div class="form-group row">
+                                <label for="habilitado" class="col-sm-5 col-form-label">Encargado (*)</label>
+                                <div class="col-sm-7">
+                                    <select name="idencargado" title="Encargado">
+                                        <option value="0">Seleccione</option>
+                                        <?php
+                                        $datos = ObjetoDatos::getInstancia()->ejecutarQuery(""
+                                                . "SELECT u.idusuario, u.nombre "
+                                                . "FROM " . Constantes::BD_USERS . ".usuario u "
+                                                . "join " . Constantes::BD_USERS . ".usuario_rol ur on u.idusuario=ur.idusuario "
+                                                . "join " . Constantes::BD_USERS . ".rol r on r.idrol=ur.idrol "
+                                                . "where r.nombre='" . PermisosSistema::ROL_ENCARGADO . "' "
+                                                . "order by u.nombre asc;");
+                                        for ($x = 0; $x < $datos->num_rows; $x++) {
+                                            $encargado = $datos->fetch_assoc();
+                                            ?>
+                                            <option value="<?= $encargado['idusuario']; ?>" ><?= $encargado['nombre']; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <script>validador.addValidation("idencargado", "selectOptions=0");</script>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="icono" class="col-sm-5 col-form-label">Icono</label>
+                                <div class="col-sm-7">
+                                    <img id="icono" src="../imagenes/iconos/png/000.png" />
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                        Seleccionar Icono
+                                    </button>
+                                </div>
+                            </div>
 
                                 <!-- Modal -->
                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -119,12 +119,12 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                     </div>
                                 </div>
                             </div>
-                            </p>
+                         
                         </fieldset>
 
                         <fieldset>
                             <legend>Opciones</legend>
-                            <input type="submit" class="btn btn-success" value="Guardar" />
+                            <input type="submit" class="btn btn-success" onclick="return validar(document.formulario);" value="Guardar" />
                             <input type="reset" class="btn btn-default" value="Limpiar Campos" />
                             <a href="servicios.ver.php">
                                 <input type="button" class="btn btn-default" value="Salir" />
@@ -164,7 +164,8 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                         hide_select: true,
                         show_label: false,
                         changed: function (select, newValues, oldValues, event) {
-                            if (newValues !== '') {
+                            console.log("nuevo valor: " + newValues);
+                            if (newValues.toString() !== '') {
                                 //cambio la imagen cuando haga click en otra imagen
                                 $("#icono").prop("src", "../imagenes/iconos/png/" + newValues.toString() + ".png");
                             } else {
@@ -186,7 +187,21 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                     });
                 });
 
+                function validar(formulario) {
 
+                    //verificar que no esta tildado la casilla checkbox,
+                    if (!formulario.valoracion.checked) {
+                        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formulario.email.value)) {
+                            return (true);
+                        } else {
+                            alert("Formato de Email invalido!");
+                            formulario.email.focus();
+                            return (false);
+                        }
+                    } else {
+                        return true;
+                    }
+                }
 
             </script>
         </section>

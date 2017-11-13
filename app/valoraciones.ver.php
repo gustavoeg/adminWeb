@@ -48,12 +48,13 @@ if ($cantidad == 0) {
     } else {
         //encargado con mas de un servicio
         //mostrar un combobox para las demas opciones
-        $select = "<select name='cambioServicio'><option value='" . $primero['idservicio'] . "'>" . $primero['servicio'] . "</option>";
+        $select = "<select name='cambioServicio'><option value='" . $primero['idservicios'] . "'>" . $primero['servicio'] . "</option>";
         while ($option = $res->fetch_assoc()) {
-            $select .= "<option value='" . $option['idservicio'] . "'>" . $option['servicio'] . "</option>";
+            $select .= "<option value='" . $option['idservicios'] . "'>" . $option['servicio'] . "</option>";
         }
         $select .= "</select>";
-        $hay_servicios = replaceHTML($contenedor, 'select_servicio', $select);
+        
+        $hay_servicios = replaceHTML($hay_servicios, 'select_servicio', $select);
     }
     $contenedor = delHTML($contenedor, 'sin_servicio');
 
@@ -111,6 +112,7 @@ while ($row = $res->fetch_assoc()){
 $hay_servicios = replaceHTML($hay_servicios, 'fila_servicio', $totalFilas);
 $contenedor = replaceHTML($contenedor, 'hay_servicios', $hay_servicios);
     
+//$contenedor = delHTML($contenedor, 'sin_servicio');
 }
 $contenedor = setvar($contenedor, 'titulo', $titulo);
 

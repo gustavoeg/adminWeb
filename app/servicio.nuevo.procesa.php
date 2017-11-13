@@ -16,11 +16,9 @@ if (isset($_POST['nombre'])) {
     } else {
         $email = '';
     }
-    if(isset($_POST['estado'])){        //si esta seteado, esta checked (habilitado)
-        $estado = 1;
-    }else{
-        $estado = 0;
-    }
+    
+    $estado = 0;       //cuando es nuevo, tiene que estar deshabilitado
+    
     try {
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "

@@ -4,34 +4,38 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_HABILITA_EN_SECTOR);
 
 $mensaje = "Se ha asociado la ubicacon y la valoracion con exito.";
 
-ObjetoDatos::getInstancia()->autocommit(false);
-ObjetoDatos::getInstancia()->begin_transaction();
-//print_r($_POST);
 $array_ubicaciones =$_POST['ubicacion'];
-foreach ($array_ubicaciones as $key => $value) {
-    print_r($key);//valor de id_ubicacion
-}
+
     if (isset($_POST['idvaloracion'])){
+        ObjetoDatos::getInstancia()->autocommit(false);
+        ObjetoDatos::getInstancia()->begin_transaction();
         
-    }else{
-        $email = $_POST['email'];
-    }
-    
-    try {
-        ObjetoDatos::getInstancia()->ejecutarQuery(""
-                . " " . Constantes::BD_USERS . ".servicios "
-                . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
-                . "WHERE idservicios = {$_POST['idservicio']}");
-                
-    } catch (Exception $exc) {
-        $mensaje = "Ha ocurrido un error. "
+        //en este punto para que no haya problema de que ya esta asociado la valoracion, elimino las asociaciones y establezco las nuevas
+        try {
+            //eliminacion de las asociaciones previas, para que queden las nuevas.
+            ObjetoDatos::getInstancia()->ejecutarQuery(""
+                        . "DELETE FROM " . Constantes::BD_USERS . ".ubicacion_valoracion "
+                        . "WHERE fk_valoraciones_idvaloraciones = {$_POST['idvaloracion']}");
+                        
+            foreach ($array_ubicaciones as $key => $value) {
+                ObjetoDatos::getInstancia()->ejecutarQuery(""
+                        . "INSERT INTO " . Constantes::BD_USERS . ".ubicacion_valoracion "
+                        . "(idubicacion_valoracion, fk_ubicacion_idubicacion, fk_valoraciones_idvaloraciones)"
+                        . "VALUES (NULL, '{$key}', '{$_POST['idvaloracion']}')"
+                );
+            }
+            ObjetoDatos::getInstancia()->commit();
+        }catch (Exception $exc) {
+            $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
-        ObjetoDatos::getInstancia()->rollback();
+            ObjetoDatos::getInstancia()->rollback();
+        }
+        ObjetoDatos::getInstancia()->autocommit(TRUE);
+    }else{
+        //no hay valoracion seleccionada sobre la cual trabajar
+        $mensaje = "No se ha asociado la ubicacon y la valoracion con exito. No hay valoracion seleccionada sobre la cual trabajar";
     }
-
-ObjetoDatos::getInstancia()->commit();
 ?>
-
 
 <html>
     <head>
@@ -48,12 +52,12 @@ ObjetoDatos::getInstancia()->commit();
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Edicion de Servicios</h3>
+                    <h3>Habilitacion de valoraciones en Ubicacion</h3>
                     <p><?php echo $mensaje; ?></p>
                     <fieldset>
                         <legend>Opciones</legend>
-                        <a href="servicios.ver.php">
-                            <input type="button" class="btn btn-primary" value="Ver Servicios" />
+                        <a href="habilita.sector.ver.php">
+                            <input type="button" class="btn btn-primary" value="Ver Valoraciones y Ubicaciones" />
                         </a>
                     </fieldset>    
 

@@ -2,7 +2,7 @@
 include_once '../lib/ControlAcceso.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 
-$mensaje = "El Servicios ha sido modificaco con exito.";
+$mensaje = "El Servicio ha sido modificado con exito.";
 
 ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();

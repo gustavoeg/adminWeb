@@ -50,6 +50,21 @@ if(isset($_GET['id'])){
                         <fieldset>
                             <legend>Ubicaciones</legend>
                             <?php 
+                            //hay que ver si ya tenia asociado algunas ubicaciones
+
+                            //obtencion de las ubicaciones que ya tenia esa valoracion
+                            $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
+                                    . "SELECT fk_ubicacion_idubicacion as idubicacion, idubicacion_valoracion "
+                                    . "FROM " . Constantes::BD_SCHEMA . ".ubicacion_valoracion uv "
+                                    . "WHERE uv.fk_valoraciones_idvaloraciones={$valoracion_actual} ");
+                                    /*echo "SELECT fk_ubicacion_idubicacion as idubicacion, idubicacion_valoracion "
+                                    . "FROM " . Constantes::BD_SCHEMA . ".ubicacion_valoracion uv "
+                                    . "WHERE uv.fk_valoraciones_idvaloraciones={$valoracion_actual} ";*/
+                            $pila_ubicaciones = array();
+                            while($value = $res->fetch_assoc()) {
+                                array_push($pila_ubicaciones, $value['idubicacion']);
+                            }
+                            
                             //obtencion de las ubicaciones.
                             $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
                                     . "SELECT u.idubicacion, u.nombre, u.codigo_qr "
@@ -57,7 +72,7 @@ if(isset($_GET['id'])){
                                     . "ORDER BY u.nombre ASC");
                             if($res->num_rows > 0){
                                 while($row = $res->fetch_assoc()){  ?>
-                            <input type="checkbox" name="ubicacion[<?php echo $row['idubicacion']?>]" />
+                            <input type="checkbox" name="ubicacion[<?php echo $row['idubicacion']?>]" <?php if(in_array($row['idubicacion'], $pila_ubicaciones)){echo "checked";}?> />
                                 <label><?php echo $row['nombre'];?></label><br />
                                 <?php }
                             }?>
@@ -66,7 +81,6 @@ if(isset($_GET['id'])){
                         <fieldset>
                             <legend>Opciones</legend>
                             <input type="submit" value="Guardar Cambios" class="btn btn-success"/>
-                            <input type="reset" value="Descartar Cambios" class="btn btn-primary" />
                             <a href="habilita.sector.ver.php">
                                 <input type="button" value="Salir" class="btn btn-primary"/>
                             </a>

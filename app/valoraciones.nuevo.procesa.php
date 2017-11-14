@@ -3,7 +3,7 @@ include_once '../lib/ControlAcceso.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
 
 $mensaje = "El Servicios ha sido agregado con exito.";
-print_r($_POST);
+//print_r($_POST);
 ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();
 /* Valores de POST: 
@@ -35,8 +35,8 @@ $idservicio = $_POST['idservicio'];
                 . "(idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
                 . "VALUES "
                 . "(NULL, '{$_POST['nombre']}', '{$tipo}', {$recibir_notificacion}, {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})");
-echo "INSERT INTO " . Constantes::BD_USERS . ".valoraciones (idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$tipo}', '{$recibir_notificacion}', {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})";                
+/*echo "INSERT INTO " . Constantes::BD_USERS . ".valoraciones (idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$tipo}', '{$recibir_notificacion}', {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})";*/
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
@@ -71,7 +71,7 @@ ObjetoDatos::getInstancia()->commit();
                             <input type="button" value="Agregar Otro" class="btn btn-primary" />
                         </a>
                         <a href="valoraciones.ver.php">
-                            <input type="button" value="Ver Servicios" class="btn btn-primary" />
+                            <input type="button" value="Ver Valoraciones" class="btn btn-primary" />
                         </a>
                     </fieldset>    
 

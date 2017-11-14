@@ -65,7 +65,8 @@ $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
         . "SELECT v.idvaloraciones, v.nombre, v.tipo, v.recibir_notificacion_email, v.permite_foto, v.permite_descripcion, v.permite_email, v.habilitado, v.vencimiento, s.nombre as servicio "
         . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
         . "join " . Constantes::BD_SCHEMA . ".servicios  s "
-        . "ON v.fk_servicios_idservicios = s.idservicios ");
+        . "ON v.fk_servicios_idservicios = s.idservicios "
+        . "WHERE v.fk_servicios_idservicios = {$primero['idservicios']}");
 $totalFilas = '';
 while ($row = $res->fetch_assoc()){
     $getFila = getHTML($hay_servicios, 'fila_servicio');

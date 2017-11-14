@@ -15,52 +15,39 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_HABILITA_EN_SECTOR);
                 <div class="content">
                     <h3>Gesti&oacute;n de Valoraciones en Sectores</h3>
                     <p>A continuaci&oacute;n se muestran las ubicaciones y las valoraciones correspondientes.</p>
-                    <p>
-                    <fieldset>
-                        <legend>Opciones</legend>
-                        <!--                        creacion del boton NUEVO-->
-                        <a href="habilita.sector.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva Asocicacion
-                        </a>
-                    </fieldset>
-                    </p>
 
                     <table id="tablaubicacionvalor" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Ubicacion</th>
                                 <th>Valoracion</th>
+                                <th>Tipo</th>
+                                <th>Habilitado</th>
+                                <th>Servicio</th>
                                 <th>Acci&oacute;n</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            //$res = $mysqli->query("SELECT * FROM checkpoint.servicios");
+
                             $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                    . "SELECT u.idubicacion, u.nombre, u.codigo_qr, u2.nombre as dependencia "
-                                    . "FROM " . Constantes::BD_SCHEMA . ".ubicacion u "
-                                    . "LEFT join " . Constantes::BD_SCHEMA . ".ubicacion u2 "
-                                    . "on u.fk_ubicacion_idubicacion = u2.idubicacion ");
+                                    . "SELECT v.idvaloraciones, v.nombre, v.tipo, v.habilitado, s.nombre as servicio "
+                                    . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
+                                    . "JOIN " . Constantes::BD_SCHEMA . ".servicios  s ON v.fk_servicios_idservicios = s.idservicios "
+                                    . "JOIN " . Constantes::BD_SCHEMA . ".usuario u ON u.idusuario = s.usuario_idusuario "
+                                    . "WHERE u.idusuario= {$_SESSION['usuario']->idusuario} "
+                                    . "ORDER BY servicio, v.nombre");
+                            
                             while ($row = $res->fetch_assoc()):
-                                //foreach ($UsuariosWorkflow->getUsuarios() as $WorkflowUsuario) {
+
                                 ?>
                                 <tr>
                                     <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['codigo_qr'] ?></td>
-                                    <td><?php
-                                        if (($row['dependencia']) != '') {
-                                            echo $row['dependencia'];
-                                        } else {
-                                            echo "Sin dependencia";
-                                        }
-                                        ?></td>
+                                    <td><?php echo $row['tipo'] ?></td>
+                                    <td><?php if($row['habilitado'] == '1'){echo "Si";}else{echo "No";}  ?></td>
+                                    <td><?php echo $row['servicio'] ?></td>
                                     <td>
-                                        <a href="ubicacion.editar.php?id=<?php echo $row['idubicacion'] ?>">
+                                        <a href="habilita.sector.editar.php?id=<?php echo $row['idvaloraciones'] ?>">
                                             <img src="../imagenes/abm_ver.png" title="Ver/Editar">
-                                        </a>
-
-                                        <a onclick="return confirm('Seguro que desea Eliminar?')" href="ubicacion.eliminar.php?id=<?php echo $row['idubicacion'] ?>">
-                                            <img src="../imagenes/abm_eliminar.png" title="Eliminar">
                                         </a>
                                     </td>
                                 </tr>

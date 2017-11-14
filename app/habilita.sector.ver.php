@@ -1,6 +1,6 @@
 <?php
 include_once '../lib/ControlAcceso.class.php';
-ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
+ControlAcceso::requierePermiso(PermisosSistema::PERMISO_HABILITA_EN_SECTOR);
 ?>
 <html>
     <head>
@@ -13,25 +13,23 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Gesti&oacute;n de Ubicaciones</h3>
-                    <p>A continuaci&oacute;n se muestran las ubicaciones en las que se podra realizar valoraciones.</p>
+                    <h3>Gesti&oacute;n de Valoraciones en Sectores</h3>
+                    <p>A continuaci&oacute;n se muestran las ubicaciones y las valoraciones correspondientes.</p>
                     <p>
                     <fieldset>
                         <legend>Opciones</legend>
                         <!--                        creacion del boton NUEVO-->
-                        <a href="ubicacion.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
+                        <a href="habilita.sector.nuevo.php" class="btn btn-primary btn-md">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva Asocicacion
                         </a>
                     </fieldset>
                     </p>
 
-                    <table id="tablaubicacion" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
+                    <table id="tablaubicacionvalor" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Codigo Qr</th>
-                                <th>Dependencia</th>
-<!--                                <th>Habilitado</th>-->
+                                <th>Ubicacion</th>
+                                <th>Valoracion</th>
                                 <th>Acci&oacute;n</th>
                             </tr>
                         </thead>
@@ -90,7 +88,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
 
         <script type="text/javascript" charset="utf-8">
                                         $(document).ready(function () {
-                                            $('#tablaubicacion').dataTable({
+                                            $('#tablaubicacionvalor').dataTable({
                                                 "oLanguage": {
                                                     "sUrl": "../lib/datatables/Spanish.json"
                                                 }

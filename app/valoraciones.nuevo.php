@@ -1,7 +1,8 @@
 <?php
 include_once '../lib/ControlAcceso.class.php';
-//include_once '../modelo/Workflow.class.php';
+
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
+$servicio = $_POST['servicio'];        //ya esta trabajando sobre un servicio, por lo que esta definido
 ?>
 <html>
     <head>
@@ -109,7 +110,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
                                     <input id="ex7-enabled"  name="sinvencimiento"type="checkbox"/> Sin Vencimiento
                                 </div>
                             </div>
-                            
+                            <input type="hidden" name="idservicio" value="<?php echo $_POST['servicio'];?>" />
                         </fieldset>
 
                         <fieldset>

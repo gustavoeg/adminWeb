@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>%%nombre_sistema%%</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
@@ -14,14 +14,22 @@
 
                     <!-- start:hay_servicios -->
                     <p>A continuaci&oacute;n se muestran las valoraciones disponibles del Sistema. para cambiar de servicio </p>
-                    <!-- start:select_servicio -->
-                    <!-- end:select_servicio -->
+                     <!-- start:cambio_servicio -->
+                    <form action="valoraciones.ver.php" method="POST">
+                            <!-- start:select_servicio -->
+                            <!-- end:select_servicio -->
+                            <input type="submit" class="btn btn-primary" value="Cambiar" name="cambio" id="cambio" />
+                    </form>
+                    <!-- end:cambio_servicio -->
+                    <p>
                     <fieldset>
                         <legend>Opciones</legend>
-                        <a href="valoraciones.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nueva
-                        </a>
+                        <form action="valoraciones.nuevo.php" method="POST" name="formulario">
+                            <input type="hidden" name="servicio" value="%%idservicio%%" />
+                            <input type="submit" class="btn btn-primary" value="Nueva" name="nueva" id="nueva" />
+                        </form>
                     </fieldset>
+                    </p>
                     <table id="tablavaloraciones" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -42,12 +50,13 @@
                             <tr>
                                 <td>%%valoracion_nombre%%</td>
                                 <td>%%tipo%%</td>
-                                <td>%%notificacion_email%%</td>
-                                <td>%%habilitado%%</td>
+                                <td>%%recibir_notificacion_email%%</td>
+                               
                                 <td>%%permite_foto%%</td>
                                 <td>%%permite_descripcion%%</td>
                                 <td>%%permite_email%%</td>
                                 <td>%%vencimiento%%</td>
+                                <td>%%habilitado%%</td>
                                 <td>%%servicio%%</td>
                                 <td>
                                     <a href="valoraciones.editar.php?id=%%idvaloraciones%%">
@@ -67,8 +76,8 @@
                     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
                     <script src="../lib/datatables/jquery.dataTables.min.js"></script>
                     <script src="../lib/datatables/dataTables.bootstrap.min.js"></script>
-                    <script src="/lib/datatables/dataTables.responsive.min.js"></script>
-                    <script src="/lib/datatables/responsive.bootstrap.min.js"></script>
+                    <script src="../lib/datatables/dataTables.responsive.min.js"></script>
+                    <script src="../lib/datatables/responsive.bootstrap.min.js"></script>
                     <script type="text/javascript">
                         $(document).ready(function () {
                             $('#tablavaloraciones').dataTable({

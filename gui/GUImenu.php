@@ -37,6 +37,12 @@
                     </li>
                 <?php } ?>
                     
+                <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_HABILITA_EN_SECTOR)) { ?>
+                    <li>
+                        <a href="../app/habilita.sector.ver.php"> H-Sector </a>
+                    </li>
+                <?php } ?>
+                    
                 <?php if (ControlAcceso::verificaPermiso(PermisosSistema::PERMISO_USUARIOS)) { ?>
                     <li>
                         <a href="../app/workflow.usuarios.ver.php" title="Gesti&oacute;n de Usuarios" 

@@ -6,8 +6,9 @@ $mensaje = "El Servicios ha sido agregado con exito.";
 
 ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();
+
 if (isset($_POST['nombre'])) {
-    if ($_POST['valoracion'] == '0') {
+    if (!isset($_POST['valoracion']) ) {
         if (isset($_POST['email'])) {
             $email = $_POST['email'];
         } else {

@@ -17,17 +17,26 @@ if (isset($_POST['sinvencimiento'])) {
     /* el valor esta revisado por la forma en que se carga */
     $vencimiento = $_POST['vencimiento'];
 }
+if(isset($_POST['tipo'])){
+    $tipo = $_POST['tipo'];
+}else{
+    $tipo = 'cualificacion';
+}
 $recibir_notificacion = isset($_POST['recibir_notificacion'])?1:0;
 $permite_foto = isset($_POST['permite_foto'])?1:0;
 $permite_descripcion = isset($_POST['permite_descripcion'])?1:0;
 $permite_email = isset($_POST['permite_email'])?1:0;
 $habilitado = isset($_POST['habilitado'])?1:0;
-
+$idservicio = $_POST['idservicio'];
 
     try {
         ObjetoDatos::getInstancia()->ejecutarQuery(""
-                . "INSERT INTO " . Constantes::BD_USERS . ".valoraciones (idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$recibir_notificacion}', {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento})");
+                . "INSERT INTO " . Constantes::BD_USERS . ".valoraciones "
+                . "(idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
+                . "VALUES "
+                . "(NULL, '{$_POST['nombre']}', '{$tipo}', {$recibir_notificacion}, {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})");
+echo "INSERT INTO " . Constantes::BD_USERS . ".valoraciones (idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$tipo}', '{$recibir_notificacion}', {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})";                
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
@@ -54,15 +63,15 @@ ObjetoDatos::getInstancia()->commit();
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Alta de Servicios</h3>
+                    <h3>Alta de Valoracion <?php echo $_POST['nombre'];?></h3>
                     <p><?php echo $mensaje; ?></p>
                     <fieldset>
                         <legend>Opciones</legend>
-                        <a href="servicios.nuevo.php">
-                            <input type="button" value="Agregar Otro" />
+                        <a href="valoraciones.nuevo.php">
+                            <input type="button" value="Agregar Otro" class="btn btn-primary" />
                         </a>
-                        <a href="servicios.ver.php">
-                            <input type="button" value="Ver Servicios" />
+                        <a href="valoraciones.ver.php">
+                            <input type="button" value="Ver Servicios" class="btn btn-primary" />
                         </a>
                     </fieldset>    
 

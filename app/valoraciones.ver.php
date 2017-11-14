@@ -3,15 +3,13 @@
 include_once '../lib/ControlAcceso.class.php';
 include_once '../modelo/Workflow.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
-$UsuariosWorkflow = new WorkflowUsuarios();
+//$UsuariosWorkflow = new WorkflowUsuarios();
 
 include_once('../lib/easytemplate.php');
 
 $contenedor = load("../gui/html/valoraciones.ver.html");
 
-
 $contenedor = setVar($contenedor, 'nombre_sistema', Constantes::NOMBRE_SISTEMA);
-
 
 $menu = get_include_contents("../gui/GUImenu.php");
 $contenedor = replaceHTML($contenedor, 'encabezado', $menu);
@@ -42,9 +40,9 @@ if ($cantidad == 0) {
 
     //region de html para personalizar
     $hay_servicios = getHTML($contenedor, 'hay_servicios');
-
+    $hay_servicios = setvar($hay_servicios, 'idservicio', $primero['idservicios']);
     if ($cantidad == 1) {
-        $hay_servicios = delHTML($hay_servicios, 'select_servicio');
+        $hay_servicios = delHTML($hay_servicios, 'cambio_servicio');
     } else {
         //encargado con mas de un servicio
         //mostrar un combobox para las demas opciones
@@ -71,43 +69,48 @@ $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
 $totalFilas = '';
 while ($row = $res->fetch_assoc()){
     $getFila = getHTML($hay_servicios, 'fila_servicio');
-    $filas = setvar($getFila, 'valoracion_nombre', $row['nombre']);
-    $filas = setvar($getFila, 'tipo', $row['tipo']);
+    $getFila = setvar($getFila, 'valoracion_nombre', $row['nombre']);
+    $getFila = setvar($getFila, 'tipo', $row['tipo']);
     if (($row['recibir_notificacion_email']) != '') {
-        $filas = setvar($getFila, 'recibir_notificacion_email', $row['recibir_notificacion_email'] . " (*)");
+        $getFila = setvar($getFila, 'recibir_notificacion_email', 'Si');
     } else {
-        $filas = setvar($getFila, 'recibir_notificacion_email', $row['email_usuario']);
+        $getFila = setvar($getFila, 'recibir_notificacion_email', 'No');
     }
-    $filas = setvar($getFila, 'email_valoraciones', $row['email_valoraciones']);
-    $filas = setvar($getFila, 'permite_email', $row['permite_email']);
+
+    if($row['permite_email']=='1'){
+        $perm_mail = 'Si';
+    }else{
+        $perm_mail = 'No';
+    }
+    $getFila = setvar($getFila, 'permite_email', $perm_mail);
     if ($row['habilitado'] == '1') {
         $hab = "Si";
     } else {
         $hab = "No";
     }
-    $filas = setvar($getFila, 'habilitado', $hab);
+    $getFila = setvar($getFila, 'habilitado', $hab);
     if ($row['permite_foto'] == '1') {
         $foto = "Si";
     } else {
         $foto = "No";
     }
-    $filas = setvar($getFila, 'permite_foto', $foto);
+    $getFila = setvar($getFila, 'permite_foto', $foto);
     if ($row['permite_descripcion'] == '1') {
         $desc = "Si";
     } else {
         $desc = "No";
     }
-    $filas = setvar($getFila, 'permite_descripcion', $descripcion);
+    $getFila = setvar($getFila, 'permite_descripcion', $desc);
     if ($row['permite_email'] == '1') {
         $email = "Si";
     } else {
         $email = "No";
     }
-    $filas = setvar($getFila, 'permite_foto', $email);
-    $filas = setvar($getFila, 'vencimiento', $row['vencimiento']);
-    $filas = setvar($getFila, 'servicio', $row['servicio']);
-    $filas = setvar($getFila, 'idvaloraciones', $row['idvaloraciones']);
-    $totalFilas .= $filas;
+    //$getFila = setvar($getFila, 'permite_foto', $email);
+    $getFila = setvar($getFila, 'vencimiento', $row['vencimiento']);
+    $getFila = setvar($getFila, 'servicio', $row['servicio']);
+    $getFila = setvar($getFila, 'idvaloraciones', $row['idvaloraciones']);
+    $totalFilas .= $getFila;
 }
 $hay_servicios = replaceHTML($hay_servicios, 'fila_servicio', $totalFilas);
 $contenedor = replaceHTML($contenedor, 'hay_servicios', $hay_servicios);

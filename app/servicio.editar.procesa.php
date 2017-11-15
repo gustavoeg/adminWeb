@@ -26,7 +26,7 @@ ObjetoDatos::getInstancia()->begin_transaction();
         //no se debe modificar
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "UPDATE " . Constantes::BD_USERS . ".servicios "
-                . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
+                . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', descripcion = '{$_POST['descripcion']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
                 . "WHERE idservicios = {$_POST['idservicio']}");
                 
     } catch (Exception $exc) {

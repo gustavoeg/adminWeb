@@ -38,9 +38,18 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                             <div class="form-group row">
                                 <label class="col-sm-5 col-form-label">Nombre Servicio (*)</label>
                                 <div class="col-sm-7">
-                                    <input type="text" name="nombre" size="22" maxlength="20" id="nombre" title="Nombre del Servicio" />
+                                    <input type="text"  name="nombre" size="22" maxlength="20" id="nombre" title="Nombre del Servicio" />
                                     <script>validador.addValidation("nombre", "obligatorio");</script>
                                     <script>validador.addValidation("nombre", "solotexto");</script>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Descripcion (*)</label>
+                                <div class="col-sm-7">
+                                    <textarea name="descripcion" rows="3" maxlength="140" id="descripcion"></textarea>
+                                    <script>validador.addValidation("descripcion", "obligatorio");</script>
+                                    <script>validador.addValidation("descripcion", "solotexto");</script>
                                 </div>
                             </div>
                             

@@ -22,8 +22,8 @@ if (isset($_POST['nombre'])) {
     
     try {
         ObjetoDatos::getInstancia()->ejecutarQuery(""
-                . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
+                . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,descripcion,email_valoraciones,habilitado,icono,usuario_idusuario) "
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";

@@ -29,7 +29,8 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                     <table class="tablaDatos">
                         <thead>
                             <tr>
-                                <th style="width: 85%">Usuario</th>
+                                <th style="width: 50%">Usuario</th>
+                                <th style="width: 35%">Rol</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -39,6 +40,16 @@ $UsuariosWorkflow = new WorkflowUsuarios();
                                 ?>
                                 <tr>                                        
                                     <td><?= $WorkflowUsuario->getNombre(); ?></td>
+                                    <td><?php 
+                                        $UsuarioWorkflow = new WorkflowUsuario($WorkflowUsuario->getIdUsuario());
+                                        $RolesWorkflow = new WorkflowRoles();
+                                        foreach($RolesWorkflow->getRoles() as $WorkflowRol){
+                                            if( $UsuarioWorkflow->poseeRol($WorkflowRol->getIdRol())){
+                                                echo $WorkflowRol->getNombre();
+                                            } else {
+                                                //se supone que tiene un rol asignado
+                                            }
+                                        } ?></td>
                                     <td>
                                         <a href="workflow.usuario.ver.php?id=<?= $WorkflowUsuario->getIdUsuario(); ?>">
                                             <img src="../imagenes/abm_ver.png" />

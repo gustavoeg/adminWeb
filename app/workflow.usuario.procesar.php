@@ -10,9 +10,8 @@ ObjetoDatos::getInstancia()->ejecutarQuery("" .
         "UPDATE  " . Constantes::BD_USERS . ".USUARIO " .
         "SET nombre = '{$_POST['nombre']}', "
         . "email = '{$_POST['email']}', "
-        . "estado = '{$_POST['estado']}', "
-        . "idSec = {$_POST['idSec']} " .
-        "WHERE idusuario = " . $_POST['idUsuario']);
+        . "estado = '{$_POST['estado']}' "
+        . "WHERE idusuario = " . $_POST['idUsuario']);
 
 ObjetoDatos::getInstancia()->ejecutarQuery("" .
         "DELETE FROM " . Constantes::BD_USERS . ".USUARIO_ROL " .

@@ -27,6 +27,35 @@ if (isset($_POST['nombre'])) {
         $idubicacion = ObjetoDatos::getInstancia()->insert_id;
         ObjetoDatos::getInstancia()->commit();
         
+        /* parte dde la creacion de la imagen qr         */
+        require "../lib/generadorqr/qrlib.php";   
+
+	// -------------------------------------------------------------------
+	//RECUPERAR DATOS DEL FORMULARIO
+        $nombre = $_POST['nombre'];
+	$codigoQr = $_POST['qr'];
+	// -------------------------------------------------------------------
+	
+	//Declaramos una carpeta temporal para guardar la imagenes generadas
+	$dir = '../imagenes/temp/';
+	
+	//Si no existe la carpeta la creamos
+	if (!file_exists($dir))
+        mkdir($dir);
+	
+        //Declaramos la ruta y nombre del archivo a generar
+	$filename = $dir.$nombre.'.png';
+ 
+        //Parametros de Condiguración
+	
+	$tamaño = 10; //Tamaño de Pixel
+	$level = 'L'; //Precisión L= Baja, M = Media, Q = Alta, H = Maxima
+	$framSize = 3; //Tamaño en blanco
+	$contenido = $codigoQr; //Texto Contenido
+	
+        //Enviamos los parametros a la Función para generar código QR 
+	QRcode::png($contenido, $filename, $level, $tamaño, $framSize);   
+        
     } else {
         $mensaje = 'No se ha definido el Codigo QR';
     }
@@ -51,8 +80,10 @@ if (isset($_POST['nombre'])) {
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Alta de Ubicaicon</h3>
+                    <h3>Alta de Ubicacion</h3>
                     <p><?php echo $mensaje; ?></p>
+                    <p>El codig QR generado es :</p>
+                    <p><img src="<?php echo $dir.basename($filename);  ?>" /></p>
                     <fieldset>
                         <legend>Opciones</legend>
                         <a href="ubicacion.nuevo.php">

@@ -21,9 +21,13 @@ if (isset($_POST['nombre'])) {
     $estado = 0;       //cuando es nuevo, tiene que estar deshabilitado
     
     try {
-        ObjetoDatos::getInstancia()->ejecutarQuery(""
-                . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,email_valoraciones,habilitado,icono,usuario_idusuario) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
+        $resultado = ObjetoDatos::getInstancia()->ejecutarQuery(""
+                . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,descripcion,email_valoraciones,habilitado,icono,usuario_idusuario) "
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
+                echo "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,descripcion,email_valoraciones,habilitado,icono,usuario_idusuario) "
+                . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})";
+                echo "resultado:".$resultado."<br/>";
+                print_r($resultado);
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";

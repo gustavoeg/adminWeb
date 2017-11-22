@@ -4,40 +4,51 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 
 $mensaje = "El Servicio ha sido modificado con exito.";
 
-ObjetoDatos::getInstancia()->autocommit(false);
-ObjetoDatos::getInstancia()->begin_transaction();
 //print_r($_POST);
-    if (isset($_POST['valoracion'])) {
-        if (isset($_POST['email'])) {
-            $email = $_POST['email'];
-        } else {
-            $email = '';
-        }
-    } else {
+if (isset($_POST['valoracion'])){
+    if (isset($_POST['email'])) {
         $email = $_POST['email'];
-    }
-    if(isset($_POST['habilitado'])){        //si esta seteado, esta checked (habilitado)
-        $estado = 1;
     }else{
-        $estado = 0;
+        $email = '';
     }
-    try {
-        //verificar si es que tiene valoraciones cargadas
-        //no se debe modificar
-        ObjetoDatos::getInstancia()->ejecutarQuery(""
-                . "UPDATE " . Constantes::BD_USERS . ".servicios "
-                . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
-                . "WHERE idservicios = {$_POST['idservicio']}");
-                
-    } catch (Exception $exc) {
-        $mensaje = "Ha ocurrido un error. "
-                . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
-        ObjetoDatos::getInstancia()->rollback();
+}else{
+    $email = $_POST['email'];
+}
+
+if(isset($_POST['habilitado'])){
+    $estado = 1;
+}else{
+    $estado = 0;
+}
+try {
+    //verificar si es que tiene valoraciones cargadas para el caso de habilitacion
+    $cantidadValoraciones = ObjetoDatos::getInstancia()->ejecutarQuery("select count(*) as cantidad from valoraciones v "
+        ."join ubicacion_valoracion uv on uv.fk_valoraciones_idvaloraciones = v.idvaloraciones"
+        . " where v.fk_servicios_idservicios = {$_POST['idservicio']} and v.habilitado = 1");
+    $cantidad = $cantidadValoraciones->fetch_assoc();
+    if($cantidad['cantidad']>0){
+        //el servicio tiene valoraciones cargadas y habilitadas y asociadas a una ubicacion para ser elejido desde el movil
+        ObjetoDatos::getInstancia()->autocommit(false);
+        ObjetoDatos::getInstancia()->begin_transaction();
+        $resultado = ObjetoDatos::getInstancia()->ejecutarQuery(""
+            . "UPDATE " . Constantes::BD_USERS . ".servicios "
+            . "SET email_valoraciones = '{$email}', nombre = '{$_POST['nombre']}', descripcion = '{$_POST['descripcion']}', habilitado = {$estado},icono = {$_POST['selecticon']},usuario_idusuario = {$_POST['idencargado']} "
+            . "WHERE idservicios = {$_POST['idservicio']}");
+        if(empty($resultado)){
+            //echo "Incorrecto:";
+            $mensaje = "No se pudieron registrar los cambios solicitados";
+            ObjetoDatos::getInstancia()->rollback();
+        }
+        ObjetoDatos::getInstancia()->commit();
+    }else{
+        //Mostrar mensaje indicando que no se puede habilitar porque no tiene valoraciones
     }
+} catch (Exception $exc) {
+$mensaje = "Ha ocurrido un error. "
+. "Codigo de error MYSQL: " . $exc->getCode() . ". ";
+ObjetoDatos::getInstancia()->rollback();
+}
 
-//$idusuario = ObjetoDatos::getInstancia()->insert_id;
-
-ObjetoDatos::getInstancia()->commit();
 ?>
 
 

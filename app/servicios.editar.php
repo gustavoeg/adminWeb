@@ -13,6 +13,8 @@ if ($datos_antes != null) {
     $servicio_antes = $datos_antes->fetch_assoc();
 //obtension del nombre
     $nombre_actual = $servicio_antes['nombre'];
+//obtension de la descripcion
+    $descripcion_actual = $servicio_antes['descripcion'];
 //obtencion de correo electronico valoraciones
     $email_valoraciones_actual = $servicio_antes['email_valoraciones'];     //si es nulo, entonces es el email del encarado
 //obtencion de estado (habilitado)
@@ -56,6 +58,15 @@ if ($datos_antes != null) {
                                 <div class="col-sm-7">
 <!--                                    <span><?php echo $nombre_actual; ?></span>-->
                                     <input type="text" name="nombre" size="22" maxlength="20" id="nombre" title="Nombre del Servicio" value="<?php echo $nombre_actual;?>" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Descripcion (*)</label>
+                                <div class="col-sm-7">
+                                    <textarea name="descripcion" rows="3" maxlength="140" id="descripcion"><?php echo $descripcion_actual;?></textarea>
+                                    <script>validador.addValidation("descripcion", "obligatorio");</script>
+                                    <script>validador.addValidation("descripcion", "solotexto");</script>
                                 </div>
                             </div>
 

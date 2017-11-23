@@ -4,9 +4,6 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 
 $mensaje = "El Servicios ha sido agregado con exito.";
 
-ObjetoDatos::getInstancia()->autocommit(false);
-ObjetoDatos::getInstancia()->begin_transaction();
-
 if (isset($_POST['nombre'])) {
     if (!isset($_POST['valoracion']) ) {
         if (isset($_POST['email'])) {
@@ -21,24 +18,28 @@ if (isset($_POST['nombre'])) {
     $estado = 0;       //cuando es nuevo, tiene que estar deshabilitado
     
     try {
+        ObjetoDatos::getInstancia()->autocommit(false);
+        ObjetoDatos::getInstancia()->begin_transaction();
+
         $resultado = ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,descripcion,email_valoraciones,habilitado,icono,usuario_idusuario) "
                 . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})");
-                echo "INSERT INTO " . Constantes::BD_USERS . ".servicios (idservicios,nombre,descripcion,email_valoraciones,habilitado,icono,usuario_idusuario) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$email}', {$estado}, {$_POST['selecticon']},{$_POST['idencargado']})";
-                echo "resultado:".$resultado."<br/>";
-                print_r($resultado);
+
+        if(!empty($resultado)){
+            ObjetoDatos::getInstancia()->commit();
+        }else{
+            ObjetoDatos::getInstancia()->rollback();
+            $mensaje = "No se pudo registrar el Nuevo Servicio";
+        }
+        
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
         ObjetoDatos::getInstancia()->rollback();
     }
 }
-$idusuario = ObjetoDatos::getInstancia()->insert_id;
 
-ObjetoDatos::getInstancia()->commit();
 ?>
-
 
 <html>
     <head>
@@ -47,7 +48,7 @@ ObjetoDatos::getInstancia()->commit();
             }
         </script>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
     </head>
     <body onload="alerta();">

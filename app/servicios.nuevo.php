@@ -5,7 +5,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
 <html>
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
         <meta name="google-signin-client_id" content="356408280239-7airslbg59lt2nped9l4dtqm2rf25aii.apps.googleusercontent.com" />
         <script type="text/javascript" src="https://apis.google.com/js/platform.js" async defer></script>
@@ -57,7 +57,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_SERVICIOS);
                                 <div class="col-sm-7">
                                     <label style="font-weight:normal;">Mismo correo Encargado <input type="checkbox" name="valoracion" value="1" checked /> </label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;o Ingresar Email
-                                    <input type="text" name="email" id="email" title="Correo electronico" size="45" maxlength="50" />
+                                    <input type="text" name="email" id="email" title="Correo electronico" size="45" maxlength="320" />
                                 </div>
                             </div>
                             

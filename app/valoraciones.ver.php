@@ -3,16 +3,15 @@
 include_once '../lib/ControlAcceso.class.php';
 include_once '../modelo/Workflow.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
-//$UsuariosWorkflow = new WorkflowUsuarios();
-
+//print_r($_POST);
 include_once('../lib/easytemplate.php');
-
 $contenedor = load("../gui/html/valoraciones.ver.html");
 
 $contenedor = setVar($contenedor, 'nombre_sistema', Constantes::NOMBRE_SISTEMA);
 
 $menu = get_include_contents("../gui/GUImenu.php");
 $contenedor = replaceHTML($contenedor, 'encabezado', $menu);
+
 /* parte en la que se obtiene el/los servicios del usuario encargado */
 $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
         . "SELECT s.idservicios, s.nombre as servicio "
@@ -27,33 +26,58 @@ if ($res) {
 }
 /* si la cantidad es cero, mensaje advertencia y opcion de salir
  * si la cantidad es una, solo muestra ese servicio,
- * si la cantidad es mayor a una, se muestra el primer servicio y un combobox para los restantes
+ * si la cantidad es mayor a una, se muestra el servicio seleccionado (primer servicio por omision) y un combobox para los restantes
  *  */
 if ($cantidad == 0) {
     //encargado sin servicio
     $titulo = "No hay servicio para administrar";
+    
     //sacar el resto de la pagina
     $contenedor = delHTML($contenedor, 'hay_servicios');
 } else {
-    $primero = $res->fetch_assoc();
-    $titulo = "Gestion de valoraciones para el servicio " . $primero['servicio'];
 
     //region de html para personalizar
     $hay_servicios = getHTML($contenedor, 'hay_servicios');
-    $hay_servicios = setvar($hay_servicios, 'idservicio', $primero['idservicios']);
+    
     if ($cantidad == 1) {
         $hay_servicios = delHTML($hay_servicios, 'cambio_servicio');
+        $servicioActual = $res->fetch_assoc();
+        $idServicioActual = $servicioActual['idservicios'];
+        $nombreServicioActual = $servicioActual['nombre'];
     } else {
         //encargado con mas de un servicio
-        //mostrar un combobox para las demas opciones
-        $select = "<select name='cambioServicio'><option value='" . $primero['idservicios'] . "'>" . $primero['servicio'] . "</option>";
-        while ($option = $res->fetch_assoc()) {
-            $select .= "<option value='" . $option['idservicios'] . "'>" . $option['servicio'] . "</option>";
+
+        //mostrar un combobox para los demas servicios
+        $select = "<select name='cambioServicio'>";
+        
+        if(isset($_POST['cambioServicio'])){
+            
+            //cuando ha seleccionado otro servicio
+            while ($option = $res->fetch_assoc()) {
+                if($option['idservicios'] == $_POST['cambioServicio']){
+                    $nombreServicioActual = $option['servicio'];
+                    $idServicioActual = $_POST['cambioServicio'];
+                }else{
+                    $select .= "<option value='" . $option['idservicios'] . "'>" . $option['servicio'] . "</option>";
+                }
+            }
+        }else{
+            //tomo el primer servicio cuando no selecciono nada
+            $option = $res->fetch_assoc();
+            $nombreServicioActual = $option['servicio'];
+            $idServicioActual = $option['idservicios'];
+            while ($option = $res->fetch_assoc()) {
+                $select .= "<option value='" . $option['idservicios'] . "'>" . $option['servicio'] . "</option>";
+            }
         }
         $select .= "</select>";
+        $titulo = "Gestiòn de Valoraciones para el servicio <strong>".mb_strtoupper($nombreServicioActual)."</strong>";
+
         
         $hay_servicios = replaceHTML($hay_servicios, 'select_servicio', $select);
     }
+    $hay_servicios = setvar($hay_servicios, 'idservicio', $idServicioActual);
+    $hay_servicios = setvar($hay_servicios, 'nombreservicio', $nombreServicioActual);
     $contenedor = delHTML($contenedor, 'sin_servicio');
 
     //parte de la tabla principal
@@ -66,7 +90,7 @@ $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
         . "FROM " . Constantes::BD_SCHEMA . ".valoraciones v "
         . "join " . Constantes::BD_SCHEMA . ".servicios  s "
         . "ON v.fk_servicios_idservicios = s.idservicios "
-        . "WHERE v.fk_servicios_idservicios = {$primero['idservicios']}");
+        . "WHERE v.fk_servicios_idservicios = {$idServicioActual}");
 $totalFilas = '';
 while ($row = $res->fetch_assoc()){
     $getFila = getHTML($hay_servicios, 'fila_servicio');

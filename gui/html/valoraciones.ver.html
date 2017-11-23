@@ -13,9 +13,10 @@
                     <h3>%%titulo%%</h3>
 
                     <!-- start:hay_servicios -->
-                    <p>A continuaci&oacute;n se muestran las valoraciones disponibles del Sistema. para cambiar de servicio </p>
+                    <p>A continuaci&oacute;n se muestran las valoraciones disponibles para los servicios que administra.</p>
                      <!-- start:cambio_servicio -->
                     <form action="valoraciones.ver.php" method="POST">
+                        <label>Para cambiar de servicio: </label>
                             <!-- start:select_servicio -->
                             <!-- end:select_servicio -->
                             <input type="submit" class="btn btn-primary" value="Cambiar" name="cambio" id="cambio" />
@@ -26,6 +27,7 @@
                         <legend>Opciones</legend>
                         <form action="valoraciones.nuevo.php" method="POST" name="formulario">
                             <input type="hidden" name="servicio" value="%%idservicio%%" />
+                            <input type="hidden" name="nombreservicio" value="%%nombreservicio%%" />
                             <input type="submit" class="btn btn-primary" value="Nueva" name="nueva" id="nueva" />
                         </form>
                     </fieldset>

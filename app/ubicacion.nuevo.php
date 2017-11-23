@@ -5,7 +5,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
 <html>
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script src="../lib/validador.js" type="text/javascript"></script>
         <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
     </head>

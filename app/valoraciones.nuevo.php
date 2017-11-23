@@ -3,11 +3,12 @@ include_once '../lib/ControlAcceso.class.php';
 
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
 $servicio = $_POST['servicio'];        //ya esta trabajando sobre un servicio, por lo que esta definido
+$nombreservicio = $_POST['nombreservicio'];
 ?>
 <html>
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
         <noscript>
             <meta http-equiv="refresh" content="0; URL=nojs/index.php">
@@ -31,7 +32,7 @@ $servicio = $_POST['servicio'];        //ya esta trabajando sobre un servicio, p
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Habilitacion de una nueva Valoracion</h3>
+                    <h3>Nueva Valoracion para el servicio <?php echo mb_strtoupper($nombreservicio);?></h3>
                     <p>Por favor complete los datos a continuaci&oacute;n. Los campos marcados con (*) son obligatorios.</p>
                     <form method="post" action="valoraciones.nuevo.procesa.php" name="formulario" >
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>

@@ -48,15 +48,15 @@ if ($cantidad == 0) {
         //encargado con mas de un servicio
 
         //mostrar un combobox para los demas servicios
-        $select = "<select name='cambioServicio'>";
+        $select = "<select name='idservicio'>";
         
-        if(isset($_POST['cambioServicio'])){
+        if(isset($_POST['idservicio'])){
             
             //cuando ha seleccionado otro servicio
             while ($option = $res->fetch_assoc()) {
-                if($option['idservicios'] == $_POST['cambioServicio']){
+                if($option['idservicios'] == $_POST['idservicio']){
                     $nombreServicioActual = $option['servicio'];
-                    $idServicioActual = $_POST['cambioServicio'];
+                    $idServicioActual = $_POST['idservicio'];
                 }else{
                     $select .= "<option value='" . $option['idservicios'] . "'>" . $option['servicio'] . "</option>";
                 }
@@ -71,7 +71,7 @@ if ($cantidad == 0) {
             }
         }
         $select .= "</select>";
-        $titulo = "Gestiòn de Valoraciones para el servicio <strong>".mb_strtoupper($nombreServicioActual)."</strong>";
+        $titulo = "Gestión de Valoraciones para el servicio <strong>".mb_strtoupper($nombreServicioActual)."</strong>";
 
         
         $hay_servicios = replaceHTML($hay_servicios, 'select_servicio', $select);

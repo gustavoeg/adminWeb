@@ -2,12 +2,12 @@
 include_once '../lib/ControlAcceso.class.php';
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
 
-$mensaje = "El Servicios ha sido agregado con exito.";
+$mensaje = "La valoracion ha sido agregada con exito.";
 //print_r($_POST);
 ObjetoDatos::getInstancia()->autocommit(false);
 ObjetoDatos::getInstancia()->begin_transaction();
 /* Valores de POST: 
- * nombre, tipo, recibir_notificacion, 
+ * nombre, descripcion, tipo, recibir_notificacion, 
  * permite_foto, permite_descripcion, permite_email, 
  * habilitado, vencimiento, sinvencimiento */
 if (isset($_POST['sinvencimiento'])) {
@@ -32,11 +32,10 @@ $idservicio = $_POST['idservicio'];
     try {
         ObjetoDatos::getInstancia()->ejecutarQuery(""
                 . "INSERT INTO " . Constantes::BD_USERS . ".valoraciones "
-                . "(idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
+                . "(idvaloraciones, nombre, descripcion, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
                 . "VALUES "
-                . "(NULL, '{$_POST['nombre']}', '{$tipo}', {$recibir_notificacion}, {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})");
-/*echo "INSERT INTO " . Constantes::BD_USERS . ".valoraciones (idvaloraciones, nombre, tipo, recibir_notificacion_email, permite_foto, permite_descripcion, permite_email, habilitado, vencimiento, fk_servicios_idservicios ) "
-                . "VALUES (NULL, '{$_POST['nombre']}', '{$tipo}', '{$recibir_notificacion}', {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})";*/
+                . "(NULL, '{$_POST['nombre']}', '{$_POST['descripcion']}', '{$tipo}', {$recibir_notificacion}, {$permite_foto}, {$permite_descripcion},{$permite_email},{$habilitado},{$vencimiento}, {$idservicio})");
+
     } catch (Exception $exc) {
         $mensaje = "Ha ocurrido un error. "
                 . "Codigo de error MYSQL: " . $exc->getCode() . ". ";
@@ -63,16 +62,21 @@ ObjetoDatos::getInstancia()->commit();
         <section id="main-content">
             <article>
                 <div class="content">
-                    <h3>Alta de Valoracion <?php echo $_POST['nombre'];?></h3>
+                    <h3>Alta de Valoracion <?php echo mb_strtoupper($_POST['nombre']);?></h3>
                     <p><?php echo $mensaje; ?></p>
                     <fieldset>
                         <legend>Opciones</legend>
-                        <a href="valoraciones.nuevo.php">
-                            <input type="button" value="Agregar Otro" class="btn btn-primary" />
-                        </a>
-                        <a href="valoraciones.ver.php">
-                            <input type="button" value="Ver Valoraciones" class="btn btn-primary" />
-                        </a>
+                        
+                        <form action="valoraciones.nuevo.php" method="POST">
+                            <input type="hidden" name="idservicio" value="<?php echo $idservicio; ?>" />
+                            <input type="hidden" name="nombreservicio" value="<?php echo $_POST['nombreservicio']; ?>" />
+                            <input type="submit" class="btn btn-primary" value="Agregar Otro" name="cambio" id="nuevo" />
+                        </form>
+                        
+                        <form action="valoraciones.ver.php" method="POST">
+                            <input type="hidden" name="idservicio" value="<?php echo $idservicio; ?>" />
+                            <input type="submit" class="btn btn-primary" value="Ver Valoraciones" name="ver" id="ver" />
+                        </form>
                     </fieldset>    
 
                 </div>

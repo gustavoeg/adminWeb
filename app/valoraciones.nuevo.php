@@ -2,7 +2,7 @@
 include_once '../lib/ControlAcceso.class.php';
 
 ControlAcceso::requierePermiso(PermisosSistema::PERMISO_OPCIONES_VALORACION);
-$servicio = $_POST['servicio'];        //ya esta trabajando sobre un servicio, por lo que esta definido
+$servicio = $_POST['idservicio'];        //ya esta trabajando sobre un servicio, por lo que esta definido
 $nombreservicio = $_POST['nombreservicio'];
 ?>
 <html>
@@ -34,7 +34,7 @@ $nombreservicio = $_POST['nombreservicio'];
                 <div class="content">
                     <h3>Nueva Valoracion para el servicio <?php echo mb_strtoupper($nombreservicio);?></h3>
                     <p>Por favor complete los datos a continuaci&oacute;n. Los campos marcados con (*) son obligatorios.</p>
-                    <form method="post" action="valoraciones.nuevo.procesa.php" name="formulario" >
+                    <form method="post" action="valoraciones.nuevo.procesa.php" name="formulario" id="formulario" >
                         <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>
                         <fieldset>
                             <legend>Propiedades</legend>
@@ -48,9 +48,18 @@ $nombreservicio = $_POST['nombreservicio'];
                             </div>
                             
                             <div class="form-group row">
+                                <label for="descripcion" class="col-sm-4 col-form-label">Descripcion</label>
+                                <div class="col-sm-8">
+                                    <textarea name="descripcion" rows="3" maxlength="140" id="descripcion" title="Texto descriptivo"></textarea>
+                                    <script>validador.addValidation("descripcion", "obligatorio");</script>
+                                    <script>validador.addValidation("descripcion", "solotexto");</script>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
                                 <label for="tipo" class="col-sm-4 col-form-label">Tipo de Valoracion (*)</label>
                                 <div class="col-sm-8">
-                                    <select id="tipo" name="tipo" title="Tipo de valoracion">
+                                    <select id="tipo" name="tipo" title="Tipo de valoracion" disabled="true">
                                     <?php
                                     /* consulta para obtener los tipos de valoraciones que estan 
                                      * contenido en la definicion del campo enumerado */
@@ -111,18 +120,25 @@ $nombreservicio = $_POST['nombreservicio'];
                                     <input id="ex7-enabled"  name="sinvencimiento"type="checkbox"/> Sin Vencimiento
                                 </div>
                             </div>
-                            <input type="hidden" name="idservicio" value="<?php echo $_POST['servicio'];?>" />
+                            
+                            <input type="hidden" name="idservicio" value="<?php echo $_POST['idservicio'];?>" />
+                            <input type="hidden" name="nombreservicio" value="<?php echo $nombreservicio; ?>" />
                         </fieldset>
 
                         <fieldset>
                             <legend>Opciones</legend>
                             <input type="submit" class="btn btn-success" value="Guardar" />
                             <input type="reset" class="btn btn-default" value="Limpiar Campos" />
-                            <a href="valoraciones.ver.php">
-                                <input type="button" class="btn btn-default" value="Salir" />
-                            </a>
+                           
+                                <input type="button" id="salir" class="btn btn-default" onClick="chgAction();" value="Salir" />
+                           
                         </fieldset>
-                        <p>&nbsp;</p>
+                        <script language="javascript" type="text/javascript">
+                            function chgAction(){
+                                document.getElementById("formulario").action ="valoraciones.ver.php";
+                                document.getElementById("formulario").submit();
+                            }
+                        </script>
 
                     </form>
                 </div>

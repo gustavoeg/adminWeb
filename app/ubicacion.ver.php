@@ -6,96 +6,144 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
     <head>
         <title><?php echo Constantes::NOMBRE_SISTEMA; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-        <link href="../gui/estilo.css" type="text/css" rel="stylesheet" />
+
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>-->
+        <link rel="stylesheet" href="../lib/jstree/style.min.css" />
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">-->
+        <!--<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">-->
+<!--        <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>-->
+        <script type="text/javascript" charset="utf8" src="../lib/jQuery/jquery-3.2.1.min.js"></script>
+        <script src="../lib/jstree/jstree.js"></script>
+
+        <!--<link href="../gui/estilo.css" type="text/css" rel="stylesheet" />-->
     </head>
     <body>
         <?php include_once '../gui/GUImenu.php'; ?>
         <section id="main-content">
-            <article>
+<!--            <article>-->
                 <div class="content">
                     <h3>Gesti&oacute;n de Ubicaciones</h3>
                     <p>A continuaci&oacute;n se muestran las ubicaciones en las que se podra realizar valoraciones.</p>
-                    <p>
-                    <fieldset>
-                        <legend>Opciones</legend>
-                        <!--                        creacion del boton NUEVO-->
-                        <a href="ubicacion.nuevo.php" class="btn btn-primary btn-md">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
-                        </a>
-                    </fieldset>
-                    </p>
+                    <div style="float: left; width: auto; height: auto" id="tree-container"></div>
+                    <div style="float: right; width: auto; height: auto" id="nuevoNodo">
+                        <form method="post" action="ubicacion.ver.response.php" name="formulario" >
+<!--                        <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>-->
+                        <fieldset>
+                            <legend>Nueva Ubicacion</legend>      
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Nombre (*)</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  name="nombre" size="22" maxlength="20" id="nombre" title="Nombre de la Ubicacion" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Dependencia</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  name="dependencia" size="22" maxlength="20" id="dependencia" title="Dependencia actual" disabled="true" />
+                                    <input type="hidden"  name="dependenciaid" id="dependenciaid" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Codigo QR (*)</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  name="codigoqr" size="22" maxlength="20" id="codigoqr" title="Codigo QR" />
+                                </div>
+                            </div>
+                         
+                        </fieldset>
 
-                    <table id="tablaubicacion" class="display table table-bordered table-stripe" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Codigo Qr</th>
-                                <th>Dependencia</th>
-<!--                                <th>Habilitado</th>-->
-                                <th>Acci&oacute;n</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            //$res = $mysqli->query("SELECT * FROM checkpoint.servicios");
-                            $res = ObjetoDatos::getInstancia()->ejecutarQuery(""
-                                    . "SELECT u.idubicacion, u.nombre, u.codigo_qr, u2.nombre as dependencia "
-                                    . "FROM " . Constantes::BD_SCHEMA . ".ubicacion u "
-                                    . "LEFT join " . Constantes::BD_SCHEMA . ".ubicacion u2 "
-                                    . "on u.fk_ubicacion_idubicacion = u2.idubicacion ");
-                            while ($row = $res->fetch_assoc()):
-                                //foreach ($UsuariosWorkflow->getUsuarios() as $WorkflowUsuario) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $row['nombre'] ?></td>
-                                    <td><?php echo $row['codigo_qr'] ?></td>
-                                    <td><?php
-                                        if (($row['dependencia']) != '') {
-                                            echo $row['dependencia'];
-                                        } else {
-                                            echo "Sin dependencia";
-                                        }
-                                        ?></td>
-                                    <td>
-                                        <a href="ubicacion.editar.php?id=<?php echo $row['idubicacion'] ?>">
-                                            <img src="../imagenes/abm_ver.png" title="Ver/Editar">
-                                        </a>
-
-                                        <a onclick="return confirm('Seguro que desea Eliminar?')" href="ubicacion.eliminar.php?id=<?php echo $row['idubicacion'] ?>">
-                                            <img src="../imagenes/abm_eliminar.png" title="Eliminar">
-                                        </a>
-                                    </td>
-                                </tr>
-                                <?php
-                            endwhile;
-// }
-                            ?>
-                        </tbody>
-                    </table> 
-
-
-                    <p>&nbsp;</p>
+                        <fieldset>
+                            <legend>Opciones</legend>
+                            <input type="submit" class="btn btn-success"  value="Agregar" />
+                            <input type="reset" class="btn btn-default" value="Limpiar Campos" />
+                        </fieldset>
+                    </form>
+                    </div>
                 </div>
-            </article>
+<!--            </article>-->
         </section>
-        <!--        parte en la que va para que se implemente datatables-->
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="../lib/datatables/jquery.js"></script>
-            <!-- Include all compiled plugins (below), or include <span id="IL_AD8" class="IL_AD">individual</span> files as needed -->
-        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-        <script src="../lib/datatables/jquery.dataTables.min.js"></script>
-        <script src="../lib/datatables/dataTables.bootstrap.min.js"></script>
-        <script src="/lib/datatables/dataTables.responsive.min.js"></script>
-        <script src="/lib/datatables/responsive.bootstrap.min.js"></script>
 
-        <script type="text/javascript" charset="utf-8">
-                                        $(document).ready(function () {
-                                            $('#tablaubicacion').dataTable({
-                                                "oLanguage": {
-                                                    "sUrl": "../lib/datatables/Spanish.json"
-                                                }
-                                            });
-                                        });
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //fill data to tree  with AJAX call
+                $('#tree-container').jstree({
+                    'core': {
+                        'data': {
+                            'url': 'ubicacion.ver.response.php?operation=get_node',
+                            'data': function (node) {
+                                return {'id': node.id};
+                            },
+                            "dataType": "json"
+                        }
+                        , 'check_callback': true,
+                        'themes': {
+                            'responsive': false
+                        }
+                    },
+                    'plugins': ['state', 'contextmenu', 'wholerow']
+                }).on('create_node.jstree', function (e, data) {
+                    console.log("creando:");
+                    $.get('ubicacion.ver.response.php?operation=create_node', {'id': data.node.parent, 'position': data.position, 'text': data.node.text})
+                            .done(function (d) {
+                                console.log("done al crear:"+d);                
+                                d = JSON.parse(d);
+                                
+                                data.instance.set_id(data.node, d.id);
+                                console.log("rama:"+d.id + 'padre:' + data.node.parent);
+                            })
+                            .fail(function () {console.log("falla al crear:");
+                                data.instance.refresh();
+                            });
+                }).on('rename_node.jstree', function (e, data) {console.log("renombrando:");
+                    $.get('ubicacion.ver.response.php?operation=rename_node', {'id': data.node.id, 'text': data.text})
+                            .fail(function () {
+                                data.instance.refresh();
+                            });
+                }).on('delete_node.jstree', function (e, data) {
+                    $.get('ubicacion.ver.response.php?operation=delete_node', {'id': data.node.id})
+                            .done(function (d) {
+                                d = JSON.parse(d);
+                                console.log('d:' + d + 'd.respuesta:' + d.respuesta);
+                                if(d.respuesta=='no'){
+                                    switch(d.causa) {
+                                        case 1451:
+                                            {
+                                                //hay dependencias asociadas a la ubicacion
+                                                alert('No se puede eliminar porque hay dependencias de esta ubicacion.');
+                                            }
+                                            break;
+                                        case 1:
+                                            {
+                                                alert('No se puede eliminar');
+                                            }
+                                            break;
+                                        default:
+                                            {
+                                                alert('No se puede eliminar');
+                                            }
+                                    } 
+                                    data.instance.refresh();
+                                }else{
+                                    console.log("Eliminado correcto:" + d.respuesta);
+                                }
+                            })
+                            .fail(function () {
+                                data.instance.refresh();
+                            });
+                }).on('changed.jstree', function (e, data) {
+ //   var i, j, r = [];
+//    for(i = 0, j = data.selected.length; i < j; i++) {
+//      r.push(data.instance.get_node(data.selected[i]).text);
+//    }
+    //$('#event_result').html('Selected: ' + r.join(', '));
+    $('#dependencia').val(data.instance.get_node(data.selected[0]).text);
+    $('#dependenciaid').val(data.instance.get_node(data.selected[0]).id);
+  });
+            });
+
         </script>
         <?php include_once '../gui/GUIfooter.php'; ?>
     </body>

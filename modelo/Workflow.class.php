@@ -97,10 +97,20 @@ class WorkflowRol {
         $this->nombre = $nombre;
     }
 
+    /**
+     * 
+     * @param WorkflowPermiso $permiso
+     */
     function addPermiso($permiso) {
         $this->permisos[] = $permiso;
     }
 
+
+    /**
+     * 
+     * @param Int $idrol_
+     * @return WorkflowPermiso[]
+     */
     function getPermisos($idrol_) {
         return $this->permisos;
     }

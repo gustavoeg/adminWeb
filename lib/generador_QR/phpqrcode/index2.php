@@ -1,7 +1,14 @@
 <?php
 	//Agregamos la libreria para genera códigos QR
-	require "C:/xampp\htdocs/generador_QR/phpqrcode/qrlib.php";   
+	require "C:/xampp/htdocs/generador_QR/phpqrcode/qrlib.php";   
+	
+	//Agregamos la libreria para generar PDF
+	require "C:/xampp/htdocs/generador_QR/phpqrcode/fpdf/fpdf.php"; 
 
+	$pdf = new FPDF('P','mm','A4');
+	$pdf->AddPage();
+	$pdf->Image('C:/xampp/htdocs/generador_QR/phpqrcode/fpdf/plantillaQR.jpg',0,0,210,297);
+	
 	// -------------------------------------------------------------------
 	//RECUPERAR DATOS DEL FORMULARIO
     $nombre = $_POST['nombre'];
@@ -29,6 +36,10 @@
         //Enviamos los parametros a la Función para generar código QR 
 	QRcode::png($contenido, $filename, $level, $tamaño, $framSize); 
 	
+	$pdf->Image('C:/xampp/htdocs/generador_QR/phpqrcode/temp/'.$nombre.'.png',45,40,120,120);
+	$pdf->Output('C:/xampp/htdocs/generador_QR/phpqrcode/temp/'.$nombre.'.pdf',"F");
+	
         //Mostramos la imagen generada
-	echo '<img src="'.$dir.basename($filename).'" /><hr/>';  
+	$pdf->Output();
+	  
 ?>

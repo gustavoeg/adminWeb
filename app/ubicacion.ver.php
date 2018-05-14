@@ -25,7 +25,22 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
                     <h3>Gesti&oacute;n de Ubicaciones</h3>
                     <p>A continuaci&oacute;n se muestran las ubicaciones en las que se podra realizar valoraciones.</p>
                     <div style="float: left; width: auto; height: auto" id="tree-container"></div>
-                    <div style="float: right; width: auto; height: auto" id="nuevoNodo">
+                    <div style="float: right; width: auto; height: auto;" id="opciones">
+                        <fieldset>
+                            <legend>Codigo QR</legend>
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Seleccionado</label>
+                                <div class="col-sm-7">
+                                    <input type="text"  name="dependencia" size="22" maxlength="20" id="actual" title="Ubicacion Seleccionada" disabled="true" />
+                                    <input type="hidden"  name="actualid" id="actualid" />
+<!--                                    <input type="hidden"  name="destino" id="destino" value="" />-->
+                                </div>
+                            </div>
+                            <button type="button" id="imprimir" class="btn btn-primary active">Imprimir</button>
+                            <button type="button" id="descargar" class="btn btn-primary active">Descargar</button>
+                        </fieldset>
+                    </div>
+                    <div style="float: right; width: auto; height: auto;display: none" id="nuevoNodo">
                         <form method="post" action="ubicacion.ver.response.php" name="formulario" >
 <!--                        <script type="text/javascript" language="javascript">var validador = new Validator("formulario");</script>-->
                         <fieldset>
@@ -134,16 +149,47 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
                                 data.instance.refresh();
                             });
                 }).on('changed.jstree', function (e, data) {
- //   var i, j, r = [];
-//    for(i = 0, j = data.selected.length; i < j; i++) {
-//      r.push(data.instance.get_node(data.selected[i]).text);
-//    }
-    //$('#event_result').html('Selected: ' + r.join(', '));
-    $('#dependencia').val(data.instance.get_node(data.selected[0]).text);
-    $('#dependenciaid').val(data.instance.get_node(data.selected[0]).id);
-  });
-            });
 
+            $('#actual').val(data.instance.get_node(data.selected[0]).text);
+            $('#actualid').val(data.instance.get_node(data.selected[0]).id);
+          });
+        
+        //accion del boton "imprimir"
+        $( "#imprimir" ).click(function() {
+            //1 generacion del pdf con el codigo qr
+            
+            //2 instruccion de impresion
+        });
+        
+        //accion del boton "descargar"
+        $( "#descargar" ).click(function() {
+            //1 generacion del pdf con el codigo qr
+            generarpdf("descargable");
+            //2 enviar como descargable dicho pdf
+        });
+        
+       
+    });
+    //funcion de generacion del pdf
+        function generarpdf(descargable){
+            var descarga = false;
+            if(descargable == "descargable"){
+                descarga = true;
+            }console.log('nombre:' + $("#actual").val()+' codigoqr:'+ $("#actualid").val() + ' descargable:' + descarga);
+            $.ajax({
+                type: "POST",
+                url: '../lib/generador_qr/phpqrcode/index.php',  
+                data:{nombre:$("#actual").val(),codigoQr:$("#actualid").val(),descargable:descarga},
+                dataType: 'json',
+                success:function(data) {
+                    alert(data);
+                    console.log('exito de llamada de descarga');
+                },
+                fail:function(){
+                    alerta('fallo en generador pdf');
+                }
+            });
+        }
         </script>
         <?php include_once '../gui/GUIfooter.php'; ?>
     </body>

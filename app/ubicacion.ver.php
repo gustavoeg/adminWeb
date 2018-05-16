@@ -26,19 +26,24 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
                     <p>A continuaci&oacute;n se muestran las ubicaciones en las que se podra realizar valoraciones.</p>
                     <div style="float: left; width: auto; height: auto" id="tree-container"></div>
                     <div style="float: right; width: auto; height: auto;" id="opciones">
+                        <form method="POST" action="../lib/generador_qr/phpqrcode/index.php" id="pdf" >
                         <fieldset>
                             <legend>Codigo QR</legend>
                             <div class="form-group row">
                                 <label class="col-sm-5 col-form-label">Seleccionado</label>
                                 <div class="col-sm-7">
-                                    <input type="text"  name="dependencia" size="22" maxlength="20" id="actual" title="Ubicacion Seleccionada" disabled="true" />
+                                    <input type="text"  name="actual" size="22" maxlength="20" id="actual" title="Ubicacion Seleccionada" disabled="true" />
+                                    <input type="hidden"  name="nombre" id="nombre" />
                                     <input type="hidden"  name="actualid" id="actualid" />
-<!--                                    <input type="hidden"  name="destino" id="destino" value="" />-->
+                                    <input type="hidden"  name="destino" id="destino" value="<?php echo Constantes::WEBROOT?>" />
                                 </div>
                             </div>
-                            <button type="button" id="imprimir" class="btn btn-primary active">Imprimir</button>
-                            <button type="button" id="descargar" class="btn btn-primary active">Descargar</button>
+<!--                            <button type="button" id="imprimir" class="btn btn-primary active">Imprimir</button>-->
+<input type="submit" id="imprimir" name="imprimir" value="imprimir" class="btn btn-primary active"/>
+<!--                            <button type="button" id="descargar" class="btn btn-primary active">Descargar</button>-->
+<input type="submit" id="descargar" value="descargar" name="descargar" class="btn btn-primary active"/>
                         </fieldset>
+                        </form>
                     </div>
                     <div style="float: right; width: auto; height: auto;display: none" id="nuevoNodo">
                         <form method="post" action="ubicacion.ver.response.php" name="formulario" >
@@ -150,6 +155,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
                             });
                 }).on('changed.jstree', function (e, data) {
 
+            $('#nombre').val(data.instance.get_node(data.selected[0]).text);
             $('#actual').val(data.instance.get_node(data.selected[0]).text);
             $('#actualid').val(data.instance.get_node(data.selected[0]).id);
           });
@@ -164,7 +170,7 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
         //accion del boton "descargar"
         $( "#descargar" ).click(function() {
             //1 generacion del pdf con el codigo qr
-            generarpdf("descargable");
+            //generarpdf("descargable");
             //2 enviar como descargable dicho pdf
         });
         

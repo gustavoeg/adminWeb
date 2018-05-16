@@ -16,7 +16,7 @@
     }, 
     "require": {
 	 "setasign/fpdf": "^1.8",
-	 "setasign/fpdi": "^2.0"
+	 "setasign/fpdi": "^2.0",
 	"setasign/fpdi-fpdf" : "^ 2.0",
         "php": "^5.6 || ^7.0",
         "ext-zlib": "*"

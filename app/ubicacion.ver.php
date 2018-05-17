@@ -42,6 +42,8 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
 <input type="submit" id="imprimir" name="imprimir" value="imprimir" class="btn btn-primary active"/>
 <!--                            <button type="button" id="descargar" class="btn btn-primary active">Descargar</button>-->
 <input type="submit" id="descargar" value="descargar" name="descargar" class="btn btn-primary active"/>
+
+<input type="button" id="imp" value="imp" name="imp" class="btn btn-primary active"/>
                         </fieldset>
                         </form>
                     </div>
@@ -88,6 +90,25 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
 
         <script type="text/javascript">
             $(document).ready(function () {
+                //codigo para imprimir pdf generado
+                function print(url)  {
+                    var _this = this,
+                    iframeId = 'iframeprint',
+                    $iframe = $('iframe#iframeprint');
+                    $iframe.attr('src', url);
+
+                    $iframe.load(function() {
+                        _this.callPrint(iframeId);
+                    });
+                }
+
+                //initiates print once content has been loaded into iframe
+                function callPrint(iframeId) {
+                    var PDF = document.getElementById(iframeId);
+                    PDF.focus();
+                    PDF.contentWindow.print();
+                }
+                
                 //fill data to tree  with AJAX call
                 $('#tree-container').jstree({
                     'core': {
@@ -156,17 +177,18 @@ ControlAcceso::requierePermiso(PermisosSistema::PERMISO_UBICACION);
                 }).on('changed.jstree', function (e, data) {
 
             $('#nombre').val(data.instance.get_node(data.selected[0]).text);
-            $('#actual').val(data.instance.get_node(data.selected[0]).text);
+            $('#actual').val(data.instance.get_node(data.selected[0]).text);;
             $('#actualid').val(data.instance.get_node(data.selected[0]).id);
           });
         
         //accion del boton "imprimir"
-        $( "#imprimir" ).click(function() {
+        $( "#imp" ).click(function() {
             //1 generacion del pdf con el codigo qr
-            
+            print('../lib/generador_QR/phpqrcode/temp/SECTORB.pdf');
             //2 instruccion de impresion
         });
         
+                
         //accion del boton "descargar"
         $( "#descargar" ).click(function() {
             //1 generacion del pdf con el codigo qr
